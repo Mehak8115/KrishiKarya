@@ -1,3 +1,9 @@
+# Large Archives (exceeding GitHub 100MB file limit)
+*.zip
+*.tar.gz
+*.7z
+*.rar
+
 # Python
 __pycache__/
 *.py[cod]
@@ -23,6 +29,3 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Uploaded Media
-datasets/uploaded_inspections/*
-!datasets/uploaded_inspections/.gitkeep
