@@ -1,0 +1,1634 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishi Karya â€” AI-enabled agricultural procurement</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>ðŸŒ¾</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F4E9;
+  --cream-alt:#FBF9F2;
+  --sage:#E7F0DD;
+  --sage-2:#DCEBD0;
+  --forest:#1F4A2C;
+  --forest-2:#163A22;
+  --leaf:#3C7A46;
+  --leaf-2:#2F6B3D;
+  --amber:#DFA23A;
+  --amber-2:#C98F2B;
+  --ink:#202A1F;
+  --ink-muted:#5B6B5A;
+  --ink-soft:#7C8A79;
+  --white:#FFFFFF;
+  --line:#E3DFD0;
+  --danger:#B5432E;
+  --radius-s:10px;
+  --radius-m:16px;
+  --radius-l:26px;
+  --shadow-card:0 1px 2px rgba(31,74,44,.06), 0 8px 24px rgba(31,74,44,.07);
+  --font-serif:'Playfair Display', 'Noto Sans Devanagari', Georgia, serif;
+  --font-sans:'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+:root[data-theme="dark"]{
+  --cream:#141912;
+  --cream-alt:#1A2117;
+  --sage:#1B2A1C;
+  --sage-2:#20301F;
+  --forest:#12240E;
+  --forest-2:#0D1A0A;
+  --leaf:#7FBF7A;
+  --leaf-2:#93CE8C;
+  --amber:#E7B563;
+  --amber-2:#F0C57C;
+  --ink:#EDEFE7;
+  --ink-muted:#B7C0AF;
+  --ink-soft:#8C978A;
+  --white:#1E2A1B;
+  --line:#2B3728;
+  --shadow-card:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --cream:#141912;
+    --cream-alt:#1A2117;
+    --sage:#1B2A1C;
+    --sage-2:#20301F;
+    --forest:#12240E;
+    --forest-2:#0D1A0A;
+    --leaf:#7FBF7A;
+    --leaf-2:#93CE8C;
+    --amber:#E7B563;
+    --amber-2:#F0C57C;
+    --ink:#EDEFE7;
+    --ink-muted:#B7C0AF;
+    --ink-soft:#8C978A;
+    --white:#1E2A1B;
+    --line:#2B3728;
+    --shadow-card:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  overflow-x:hidden;
+}
+body.lang-hi{ }
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;}
+h1,h2,h3,h4{font-family:var(--font-serif);color:var(--forest);margin:0;line-height:1.15;font-weight:700;}
+:root[data-theme="dark"] h1, :root[data-theme="dark"] h2, :root[data-theme="dark"] h3, :root[data-theme="dark"] h4{color:var(--leaf-2);}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) h1, :root:not([data-theme="light"]) h2, :root:not([data-theme="light"]) h3, :root:not([data-theme="light"]) h4{color:var(--leaf-2);}
+}
+p{margin:0;}
+.container{max-width:1240px;margin:0 auto;padding:0 32px;}
+@media (max-width:700px){ .container{padding:0 18px;} }
+
+/* wide content scroll safety */
+.scroll-x{overflow-x:auto;}
+
+/* ---------- Header ---------- */
+header.site-header{
+  position:sticky;top:0;z-index:60;
+  background:var(--cream-alt);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:1240px;margin:0 auto;padding:14px 32px;
+  display:flex;align-items:center;gap:28px;
+}
+@media (max-width:700px){ .header-inner{padding:12px 18px;gap:12px;} }
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;}
+.brand-mark{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--forest);color:var(--white);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.brand-name{font-family:var(--font-serif);font-weight:700;font-size:1.2rem;color:var(--forest);}
+.brand-tag{font-size:.72rem;color:var(--ink-muted);margin-top:-2px;}
+nav.main-nav{display:flex;align-items:center;gap:22px;flex:1;}
+nav.main-nav a, .nav-dd > button{
+  font-size:.95rem;color:var(--ink);background:none;border:none;cursor:pointer;
+  padding:8px 2px;display:flex;align-items:center;gap:5px;white-space:nowrap;
+}
+nav.main-nav a:hover, .nav-dd>button:hover{color:var(--leaf-2);}
+nav.main-nav a.active{color:var(--forest);font-weight:600;}
+.nav-dd{position:relative;}
+.nav-dd-panel{
+  position:absolute;top:calc(100% + 6px);left:0;background:var(--white);
+  border:1px solid var(--line);border-radius:var(--radius-s);box-shadow:var(--shadow-card);
+  min-width:200px;padding:6px;display:none;flex-direction:column;z-index:50;
+}
+.nav-dd.open .nav-dd-panel{display:flex;}
+.nav-dd-panel a{padding:10px 12px;border-radius:8px;font-size:.92rem;}
+.nav-dd-panel a:hover, .nav-dd-panel a.active{background:var(--sage);color:var(--forest);}
+.header-actions{display:flex;align-items:center;gap:14px;margin-left:auto;flex-shrink:0;}
+.icon-btn{
+  background:none;border:none;cursor:pointer;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:6px;border-radius:8px;
+  position:relative;
+}
+.icon-btn:hover{background:var(--sage);}
+.cart-badge{
+  position:absolute;top:-2px;right:-2px;background:var(--amber-2);color:#2b1c00;
+  font-size:.62rem;font-weight:700;min-width:16px;height:16px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;padding:0 3px;
+}
+.lang-toggle{
+  display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;
+  color:var(--ink);font-size:.88rem;font-weight:600;padding:8px 10px;border-radius:20px;
+}
+.lang-toggle:hover{background:var(--sage);}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-weight:600;font-size:.92rem;border-radius:30px;border:1px solid transparent;
+  padding:11px 22px;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--forest);color:#fff;}
+.btn-primary:hover{background:var(--forest-2);}
+.btn-amber{background:var(--amber);color:#2b1c00;}
+.btn-amber:hover{background:var(--amber-2);}
+.btn-outline{background:transparent;border-color:var(--forest);color:var(--forest);}
+.btn-outline:hover{background:var(--sage);}
+.btn-sm{padding:8px 16px;font-size:.85rem;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+
+/* mobile nav */
+.burger{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+@media (max-width:980px){
+  nav.main-nav{display:none;}
+  .burger{display:flex;}
+  .header-actions .lang-toggle span.lang-label{display:none;}
+}
+.mobile-nav{
+  display:none;flex-direction:column;background:var(--cream-alt);border-top:1px solid var(--line);
+  padding:8px 18px 18px;
+}
+.mobile-nav.open{display:flex;}
+.mobile-nav a, .mobile-nav button.mn-parent{
+  padding:12px 4px;border-bottom:1px solid var(--line);font-size:1rem;background:none;border-left:none;border-right:none;border-top:none;text-align:left;width:100%;color:var(--ink);cursor:pointer;
+}
+.mobile-sub{padding-left:14px;display:flex;flex-direction:column;}
+.mobile-sub a{border-bottom:1px dashed var(--line);color:var(--ink-muted);}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;color:#fff;background:var(--forest);}
+.hero-bg{position:absolute;inset:0;z-index:0;}
+.hero-bg svg{width:100%;height:100%;display:block;}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(100deg, rgba(18,40,20,.92) 0%, rgba(28,64,32,.72) 42%, rgba(60,110,50,.28) 75%, rgba(110,150,60,.12) 100%);}
+.hero-inner{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:76px 32px 64px;}
+@media (max-width:700px){ .hero-inner{padding:40px 18px 40px;} }
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#2b1c00;
+  font-size:.82rem;font-weight:600;padding:8px 16px;border-radius:30px;margin-bottom:26px;
+}
+.hero h1{
+  color:#fff;font-size:clamp(2.1rem, 5vw, 3.4rem);max-width:820px;margin-bottom:22px;
+}
+.hero p.lede{
+  color:#EAF1E4;font-size:1.08rem;max-width:560px;margin-bottom:34px;
+}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+
+/* feature strip overlapping hero bottom */
+.feature-strip-wrap{position:relative;z-index:3;}
+.feature-strip{
+  max-width:1240px;margin:0 auto;background:var(--white);border-radius:var(--radius-m);
+  box-shadow:var(--shadow-card);display:grid;grid-template-columns:repeat(4,1fr);
+  transform:translateY(-46px);margin-bottom:-30px;
+  border:1px solid var(--line);
+}
+@media (max-width:940px){ .feature-strip{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:560px){ .feature-strip{grid-template-columns:1fr;transform:translateY(-24px);margin-bottom:-8px;} }
+.feature-item{
+  padding:26px 24px;display:flex;flex-direction:column;gap:10px;
+  border-right:1px solid var(--line);
+}
+.feature-item:last-child{border-right:none;}
+@media (max-width:940px){ .feature-item:nth-child(2){border-right:none;} .feature-item:nth-child(odd){border-right:1px solid var(--line);} }
+@media (max-width:560px){ .feature-item{border-right:none !important;border-bottom:1px solid var(--line);} .feature-item:last-child{border-bottom:none;} }
+.feature-icon{
+  width:40px;height:40px;border-radius:50%;background:var(--sage);color:var(--leaf-2);
+  display:flex;align-items:center;justify-content:center;
+}
+.feature-item h4{font-family:var(--font-sans);font-weight:700;font-size:.98rem;color:var(--ink);}
+.feature-item p{font-size:.85rem;color:var(--ink-muted);}
+
+/* ---------- Sections ---------- */
+.section{padding:74px 0;}
+.section.tight{padding:56px 0;}
+.section.alt{background:var(--sage);}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:34px;flex-wrap:wrap;}
+.section-head h2{font-size:clamp(1.6rem,3vw,2.2rem);}
+.section-head p{color:var(--ink-muted);margin-top:8px;max-width:560px;}
+.view-all{color:var(--leaf-2);font-weight:600;font-size:.94rem;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+.view-all:hover{text-decoration:underline;}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+@media (max-width:980px){ .grid-3{grid-template-columns:repeat(2,1fr);} .grid-4{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:640px){ .grid-3{grid-template-columns:1fr;} .grid-4{grid-template-columns:1fr;} }
+
+.tool-card{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:30px 26px;box-shadow:var(--shadow-card);
+}
+.tool-card .circle-icon{
+  width:52px;height:52px;border-radius:50%;background:var(--forest);color:#fff;
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.tool-card h3{font-size:1.2rem;margin-bottom:10px;}
+.tool-card p{color:var(--ink-muted);font-size:.92rem;margin-bottom:18px;}
+.tool-card .link-arrow{color:var(--leaf-2);font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;}
+.tool-card .link-arrow:hover{text-decoration:underline;}
+
+.produce-card{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-m);
+  overflow:hidden;box-shadow:var(--shadow-card);display:flex;flex-direction:column;
+}
+.produce-thumb{
+  aspect-ratio:4/3;width:100%;position:relative;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg, var(--sage-2), var(--sage));
+}
+.produce-icon-badge{
+  width:74px;height:74px;border-radius:50%;background:var(--white);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(31,74,44,.12);
+  color:var(--forest);
+}
+.produce-icon-badge svg{width:60%;height:60%;stroke-width:1.9;}
+.grade-chip{
+  position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);color:var(--forest);
+  font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid var(--line);
+}
+.produce-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1;}
+.produce-body h4{font-family:var(--font-sans);font-size:1.02rem;font-weight:700;color:var(--ink);}
+.produce-meta{font-size:.82rem;color:var(--ink-muted);}
+.produce-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.produce-price{font-family:var(--font-serif);font-weight:700;color:var(--forest);font-size:1.15rem;}
+.produce-price span{font-family:var(--font-sans);font-weight:500;font-size:.78rem;color:var(--ink-muted);}
+.add-cart-btn{
+  background:var(--forest);color:#fff;border:none;border-radius:20px;padding:8px 14px;
+  font-size:.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;
+}
+.add-cart-btn:hover{background:var(--forest-2);}
+.add-cart-btn.added{background:var(--leaf-2);}
+
+/* dual CTA band */
+.dual-cta{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+@media (max-width:760px){ .dual-cta{grid-template-columns:1fr;} }
+.dual-cta-card{
+  border-radius:var(--radius-l);padding:38px 34px;color:#fff;position:relative;overflow:hidden;
+}
+.dual-cta-card.farmer{background:linear-gradient(135deg,var(--forest),var(--leaf-2));}
+.dual-cta-card.retailer{background:linear-gradient(135deg,#8a5a1d,var(--amber));}
+.dual-cta-card h3{color:#fff;font-size:1.5rem;margin-bottom:12px;}
+.dual-cta-card p{color:rgba(255,255,255,.88);margin-bottom:22px;max-width:420px;}
+.dual-cta-card .btn{background:#fff;color:var(--forest);}
+.dual-cta-card.retailer .btn{color:#5c3a10;}
+
+/* ---------- Footer ---------- */
+footer.site-footer{background:var(--forest);color:#EAF1E4;padding:56px 0 0;}
+:root[data-theme="dark"] footer.site-footer, :root[data-theme="dark"] footer.site-footer h1{background:#0D1A0A;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px;padding-bottom:38px;}
+@media (max-width:820px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+@media (max-width:520px){ .footer-grid{grid-template-columns:1fr;} }
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.footer-brand .brand-mark{background:var(--amber);color:#2b1c00;}
+.footer-brand-name{font-family:var(--font-serif);font-weight:700;font-size:1.1rem;color:#fff;}
+.footer-tagline{color:#B9CBB2;font-size:.88rem;max-width:240px;}
+.footer-col h5{color:var(--amber);font-size:.78rem;font-weight:700;letter-spacing:.02em;margin-bottom:16px;text-transform:uppercase;}
+.footer-col a, .footer-col p{display:block;color:#D9E5D2;font-size:.92rem;margin-bottom:12px;}
+.footer-col a:hover{color:#fff;text-decoration:underline;}
+.footer-contact-item{display:flex;align-items:flex-start;gap:8px;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.14);padding:18px 0;text-align:center;font-size:.82rem;color:#AABF9F;}
+
+/* ---------- Page header (inner pages) ---------- */
+.page-head{padding:44px 0 30px;}
+.page-head h1{font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:10px;}
+.page-head p{color:var(--ink-muted);font-size:1rem;max-width:560px;}
+.breadcrumb{font-size:.82rem;color:var(--ink-soft);margin-bottom:14px;display:flex;gap:6px;align-items:center;}
+.breadcrumb a:hover{color:var(--leaf-2);}
+
+/* ---------- Marketplace ---------- */
+.marketplace-layout{display:grid;grid-template-columns:280px 1fr;gap:28px;align-items:flex-start;padding-bottom:70px;}
+@media (max-width:860px){ .marketplace-layout{grid-template-columns:1fr;} }
+.filters-panel{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:24px;position:sticky;top:88px;box-shadow:var(--shadow-card);
+}
+.filters-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.05rem;margin-bottom:20px;color:var(--ink);}
+.field-group{margin-bottom:18px;}
+.field-group label{display:block;font-size:.84rem;font-weight:600;margin-bottom:7px;color:var(--ink);}
+.field-input, select.field-input{
+  width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+  font-size:.9rem;font-family:inherit;background:var(--cream-alt);color:var(--ink);
+}
+.field-input:focus, select.field-input:focus{outline:2px solid var(--leaf-2);outline-offset:1px;border-color:var(--leaf-2);}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{
+  border:1px solid var(--line);border-radius:20px;padding:6px 13px;font-size:.8rem;
+  background:var(--cream-alt);cursor:pointer;color:var(--ink);
+}
+.chip.active{background:var(--forest);color:#fff;border-color:var(--forest);}
+.clear-filters{font-size:.85rem;color:var(--leaf-2);background:none;border:none;cursor:pointer;padding:0;margin-top:6px;}
+.clear-filters:hover{text-decoration:underline;}
+.results-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.results-count{color:var(--ink-muted);font-size:.9rem;}
+.sort-row{display:flex;align-items:center;gap:8px;font-size:.88rem;}
+.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width:1080px){ .market-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:640px){ .market-grid{grid-template-columns:1fr;} }
+.empty-state{
+  background:var(--white);border:1px dashed var(--line);border-radius:var(--radius-m);
+  padding:60px 20px;text-align:center;color:var(--ink-muted);
+}
+
+/* ---------- AI tool page ---------- */
+.ai-layout{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding-bottom:70px;align-items:start;}
+@media (max-width:860px){ .ai-layout{grid-template-columns:1fr;} }
+.dropzone{
+  border:2px dashed var(--line);border-radius:var(--radius-m);background:var(--cream-alt);
+  min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:30px;cursor:pointer;transition:border-color .15s, background .15s;
+  position:relative;overflow:hidden;
+}
+.dropzone.drag{border-color:var(--leaf-2);background:var(--sage);}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.dropzone .upload-icon{color:var(--leaf-2);margin-bottom:16px;}
+.dropzone h4{font-family:var(--font-sans);font-weight:600;font-size:1.05rem;margin-bottom:8px;color:var(--ink);}
+.dropzone p{font-size:.85rem;color:var(--ink-muted);}
+.dropzone img.preview{max-height:380px;border-radius:12px;object-fit:contain;}
+.results-panel{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-m);
+  min-height:420px;padding:26px;box-shadow:var(--shadow-card);
+}
+.results-empty{color:var(--ink-muted);font-size:.95rem;}
+.analyzing{display:flex;align-items:center;gap:12px;color:var(--ink-muted);font-size:.95rem;}
+.spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid var(--line);border-top-color:var(--leaf-2);animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.result-card{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;}
+.result-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.result-title{font-weight:700;font-size:1.05rem;color:var(--ink);}
+.result-badge{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px;}
+.badge-good{background:#DDF0D8;color:#28611F;}
+:root[data-theme="dark"] .badge-good{background:#20351D;color:#9BDB8E;}
+.badge-warn{background:#FBEBD0;color:#8A5A0E;}
+:root[data-theme="dark"] .badge-warn{background:#3A2E14;color:#F0C57C;}
+.badge-bad{background:#F6DCD5;color:#95311D;}
+:root[data-theme="dark"] .badge-bad{background:#3A1F19;color:#EF9C86;}
+.confidence-row{margin:10px 0;}
+.confidence-bar{height:7px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:6px;}
+.confidence-fill{height:100%;background:var(--leaf-2);}
+.result-detail-row{display:flex;justify-content:space-between;font-size:.86rem;padding:6px 0;border-top:1px dashed var(--line);color:var(--ink-muted);}
+.result-detail-row span:last-child{color:var(--ink);font-weight:600;}
+.rec-box{background:var(--sage);border-radius:10px;padding:12px 14px;font-size:.86rem;margin-top:12px;color:var(--ink);}
+.history-thumb-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.history-thumb{width:52px;height:52px;border-radius:8px;object-fit:cover;border:1px solid var(--line);cursor:pointer;opacity:.7;}
+.history-thumb.active{opacity:1;outline:2px solid var(--leaf-2);}
+
+/* ---------- Cart ---------- */
+.cart-table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--line);border-radius:var(--radius-m);overflow:hidden;}
+.cart-table th{text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-soft);padding:14px 16px;background:var(--cream-alt);border-bottom:1px solid var(--line);}
+.cart-table td{padding:16px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:.92rem;}
+.cart-item-name{display:flex;align-items:center;gap:12px;}
+.cart-item-name .thumb{width:52px;height:52px;border-radius:10px;background:var(--sage-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.qty-stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:20px;width:fit-content;}
+.qty-stepper button{background:none;border:none;width:28px;height:28px;cursor:pointer;font-size:1rem;color:var(--ink);}
+.qty-stepper span{min-width:22px;text-align:center;font-size:.9rem;}
+.remove-link{color:var(--danger);font-size:.82rem;background:none;border:none;cursor:pointer;padding:0;}
+.remove-link:hover{text-decoration:underline;}
+.cart-summary{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-m);padding:24px;
+  box-shadow:var(--shadow-card);
+}
+.cart-summary-row{display:flex;justify-content:space-between;padding:8px 0;font-size:.92rem;color:var(--ink-muted);}
+.cart-summary-row.total{border-top:1px solid var(--line);margin-top:8px;padding-top:14px;font-weight:700;color:var(--ink);font-size:1.05rem;}
+.cart-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;padding-bottom:70px;}
+@media (max-width:820px){ .cart-layout{grid-template-columns:1fr;} }
+
+/* ---------- How it works ---------- */
+.steps-col{display:flex;flex-direction:column;gap:0;}
+.step-row{display:flex;gap:18px;padding:22px 0;border-bottom:1px solid var(--line);}
+.step-row:last-child{border-bottom:none;}
+.step-num{
+  width:36px;height:36px;border-radius:50%;background:var(--forest);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-family:var(--font-serif);
+}
+.step-row h4{font-size:1.05rem;margin-bottom:6px;color:var(--ink);font-family:var(--font-sans);font-weight:700;}
+.step-row p{color:var(--ink-muted);font-size:.9rem;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:44px;}
+@media (max-width:820px){ .two-col{grid-template-columns:1fr;gap:30px;} }
+
+/* ---------- About ---------- */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:40px 0;}
+@media (max-width:760px){ .stats-row{grid-template-columns:repeat(2,1fr);} }
+.stat-box{text-align:center;padding:22px 10px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius-m);}
+.stat-box .num{font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--forest);}
+.stat-box .label{font-size:.82rem;color:var(--ink-muted);margin-top:4px;}
+.about-story p{margin-bottom:16px;color:var(--ink-muted);max-width:720px;}
+.about-story{margin-bottom:10px;}
+
+/* ---------- Contact ---------- */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-bottom:70px;}
+@media (max-width:820px){ .contact-layout{grid-template-columns:1fr;} }
+.contact-info-item{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start;}
+.contact-info-item .ic{width:42px;height:42px;border-radius:50%;background:var(--sage);color:var(--leaf-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.contact-info-item h5{font-size:.95rem;margin-bottom:3px;color:var(--ink);}
+.contact-info-item p{font-size:.88rem;color:var(--ink-muted);}
+.form-row{margin-bottom:16px;}
+.form-row label{display:block;font-size:.86rem;font-weight:600;margin-bottom:6px;}
+.form-row input, .form-row textarea{
+  width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-family:inherit;
+  font-size:.92rem;background:var(--cream-alt);color:var(--ink);
+}
+.form-row textarea{resize:vertical;min-height:110px;}
+.form-row input:focus, .form-row textarea:focus{outline:2px solid var(--leaf-2);outline-offset:1px;border-color:var(--leaf-2);}
+.success-msg{background:var(--sage);border:1px solid var(--leaf-2);color:var(--forest);padding:14px 16px;border-radius:10px;font-size:.9rem;margin-bottom:16px;}
+
+/* ---------- 404 ---------- */
+.notfound{text-align:center;padding:100px 20px;}
+.notfound .code{font-family:var(--font-serif);font-size:5rem;font-weight:800;color:var(--forest);margin-bottom:6px;}
+.notfound h3{margin-bottom:10px;}
+.notfound p{color:var(--ink-muted);margin-bottom:26px;}
+
+/* ---------- Modal (login) ---------- */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(20,25,18,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--white);border-radius:var(--radius-m);padding:32px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative;}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:var(--ink-muted);padding:4px;}
+.modal-box h3{margin-bottom:6px;}
+.modal-box .sub{color:var(--ink-muted);font-size:.88rem;margin-bottom:22px;}
+.modal-tabs{display:flex;gap:4px;background:var(--cream-alt);border-radius:10px;padding:4px;margin-bottom:20px;}
+.modal-tabs button{flex:1;border:none;background:none;padding:8px;border-radius:8px;font-size:.86rem;font-weight:600;cursor:pointer;color:var(--ink-muted);}
+.modal-tabs button.active{background:var(--white);color:var(--forest);box-shadow:0 1px 3px rgba(0,0,0,.1);}
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--forest);color:#fff;padding:13px 22px;border-radius:30px;font-size:.9rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:200;opacity:0;pointer-events:none;transition:all .25s ease;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* search overlay */
+.search-overlay{position:fixed;inset:0;background:rgba(20,25,18,.5);z-index:90;display:none;align-items:flex-start;justify-content:center;padding-top:12vh;}
+.search-overlay.open{display:flex;}
+.search-box{background:var(--white);border-radius:var(--radius-m);width:100%;max-width:560px;padding:6px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.search-box input{width:100%;border:none;padding:16px 18px;font-size:1.05rem;font-family:inherit;border-radius:var(--radius-m);background:transparent;color:var(--ink);}
+.search-box input:focus{outline:none;}
+
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+:focus-visible{outline:2px solid var(--leaf-2);outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms !important;transition-duration:.01ms !important;} }
+</style>
+</head>
+<body>
+<div id="app-root"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   Krishi Karya â€” client-side demo app
+   ========================================================= */
+
+/* ---------- Icons (feather-style inline SVG) ---------- */
+const ICON = {
+  leaf:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>',
+  search:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+  cart:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>',
+  globe:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+  chevronDown:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>',
+  arrowRight:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+  bug:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="8" height="14" rx="4"></rect><path d="M19 7l-3 2M5 7l3 2M19 19l-3-2M5 19l3-2M12 6V3M9 3h6M20 13h2M2 13h2"></path></svg>',
+  sparkle:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"></path></svg>',
+  scan:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><line x1="7" y1="12" x2="17" y2="12"></line></svg>',
+  people:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+  truck:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>',
+  shield:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5.25 3.4 9.74 8 11 4.6-1.26 8-5.75 8-11V5l-8-3Z"></path></svg>',
+  upload:'<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>',
+  filter:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="11" y1="18" x2="13" y2="18"></line></svg>',
+  phone:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"></path></svg>',
+  mail:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"></path><path d="M22 6 12 13 2 6"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>',
+  pin:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+  menu:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>',
+  close:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>',
+  wheat:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M8 5c0 1.7 1.8 3 4 3s4-1.3 4-3M8 9c0 1.7 1.8 3 4 3s4-1.3 4-3M8 13c0 1.7 1.8 3 4 3s4-1.3 4-3M6 22h12"></path></svg>',
+  carrot:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3c2 0 4 2 4 4M17 2c1.2.5 2 1.2 2.5 2.5M14 4c1.2 0 2.2.7 2.7 1.8"></path><path d="M18.5 6.5c.9 3-1.8 12-8 15-2 1-4-1-3-3 3-6.2 8-12 11-12Z"></path></svg>',
+  tomato:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 1 1.3 2 3 2M12 3c-1 1-1.3 2-3 2M9 5c-1 0-2 1-2 1"></path><circle cx="12" cy="14" r="8"></circle></svg>',
+  mango:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4c6 0 12 5 12 11 0 3-2.5 5-6 5S3 17 3 12C3 8 4 4 6 4Z"></path><path d="M14 4c1.4 0 3 .8 3.6 2"></path></svg>',
+  onion:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"></path><path d="M6 17c0-6 2.5-11 6-11s6 5 6 11a6 6 0 0 1-12 0Z"></path><path d="M9 8c1 1.5 1 8 .5 10M15 8c-1 1.5-1 8-.5 10"></path></svg>',
+  potato:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="8" ry="6"></ellipse><path d="M9 11h.01M14 10h.01M11 15h.01"></path></svg>',
+  chili:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4c1.5 0 2.5 1 2.5 2"></path><path d="M8 5c4 0 10 3 10 9 0 4-3 6-6 6-5 0-9-4-9-9 0-3 2-6 5-6Z"></path></svg>',
+  grapes:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"></path><circle cx="9" cy="9" r="2.4"></circle><circle cx="15" cy="9" r="2.4"></circle><circle cx="7" cy="14" r="2.4"></circle><circle cx="12" cy="14" r="2.4"></circle><circle cx="17" cy="14" r="2.4"></circle><circle cx="9.5" cy="19" r="2.4"></circle><circle cx="14.5" cy="19" r="2.4"></circle></svg>',
+  banana:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4c-1 6 0 13 6 15 5 2 10-1 11-6"></path><path d="M18 4c1.3.3 2 1.3 2 3"></path></svg>',
+  cauliflower:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3"></path><circle cx="9" cy="8" r="2.6"></circle><circle cx="15" cy="8" r="2.6"></circle><circle cx="12" cy="6.5" r="2.6"></circle><path d="M6 11c0 5 2.5 9 6 9s6-4 6-9"></path></svg>',
+};
+function ic(name, extra){ return ICON[name] || ''; }
+
+/* ---------- i18n ---------- */
+const I18N = {
+en:{
+  nav_home:"Home", nav_marketplace:"Marketplace", nav_ai:"AI Tools", nav_how:"How It Works",
+  nav_about:"About", nav_contact:"Contact", nav_login:"Login", nav_logout:"Log out",
+  ai_disease:"Disease Detection", ai_ripeness:"Ripeness Detection", ai_quality:"Quality Grading",
+  brand_tag:"AI-enabled agricultural procurement",
+  hero_badge:"AI-enabled agricultural procurement",
+  hero_h1:"Fair prices for farmers. Reliable supply for retailers.",
+  hero_lede:"Krishi Karya connects Indian farms directly with retail buyers, with AI checks for disease, ripeness and quality on every crop.",
+  hero_cta1:"View marketplace", hero_cta2:"Sell your produce",
+  feat1_h:"Verified farmers", feat1_p:"Every seller is identity-checked and location-verified before listing.",
+  feat2_h:"Pan-India logistics", feat2_p:"Cold-chain and last-mile delivery tracked from farm gate to store.",
+  feat3_h:"Quality assured", feat3_p:"Every batch is graded before it ships, so what you see is what arrives.",
+  feat4_h:"AI-powered checks", feat4_p:"Computer vision flags disease, ripeness and grade in seconds.",
+  fresh_h:"Fresh on the marketplace", fresh_p:"Recently listed produce from verified Indian farms.",
+  view_all:"View all",
+  tools_h:"AI tools built for the field", tools_p:"Upload a photo and get an instant read on crop health, ripeness and market grade.",
+  tool_disease_d:"Spot early signs of blight, rot and pest damage before they spread through a batch.",
+  tool_ripeness_d:"Know exactly when a crop is at peak ripeness for harvest, sale or storage.",
+  tool_quality_d:"Get an objective A/B/C market grade based on size, colour and surface quality.",
+  upload_image:"Upload image",
+  cta_farmer_h:"Selling this season's harvest?", cta_farmer_p:"List your crop in minutes and reach retail buyers across India â€” no middlemen, no haggling.",
+  cta_farmer_btn:"Sell your produce",
+  cta_retailer_h:"Sourcing for your store?", cta_retailer_p:"Browse graded, verified produce from farms near you and place orders with confidence.",
+  cta_retailer_btn:"Browse marketplace",
+  footer_tag:"AI-enabled agricultural procurement, connecting Indian farms to retail buyers.",
+  footer_platform:"Platform", footer_company:"Company", footer_contact:"Contact",
+  footer_about:"About", footer_how:"How It Works", footer_contact_link:"Contact",
+  footer_rights:"Â© 2026 Krishi Karya. All rights reserved.",
+  mkt_h:"Marketplace", mkt_p:"Fresh produce direct from verified Indian farms.",
+  filters:"Filters", search_ph:"Search crops, varieties, farmersâ€¦",
+  category:"Category", all_categories:"All categories",
+  location:"Location", all_locations:"All locations",
+  quality_grade:"Quality grade", sort_by:"Sort by",
+  sort_newest:"Newest", sort_price_low:"Price: low to high", sort_price_high:"Price: high to low", sort_grade:"Grade: best first",
+  clear_filters:"Clear filters",
+  results_showing:"Showing", results_of:"of", results_listings:"listings",
+  no_results_h:"No produce matches your filters.", no_results_p:"Try widening your search or clearing a filter.",
+  add_to_cart:"Add to cart", added:"Added",
+  per_kg:"/ kg", per_qtl:"/ quintal", per_dozen:"/ dozen",
+  ai_disease_h:"Disease Detection", ai_disease_p:"Upload a photo and get an instant read on crop health, ripeness and market grade.",
+  ai_ripeness_h:"Ripeness Detection", ai_ripeness_p:"Upload a photo and get an instant read on crop health, ripeness and market grade.",
+  ai_quality_h:"Quality Grading", ai_quality_p:"Upload a photo and get an instant read on crop health, ripeness and market grade.",
+  dz_h:"Upload image", dz_p:"Drag and drop a clear photo, or click to browse", dz_hint:"(JPG/PNG, max 8 MB)",
+  no_analyses:"No analyses yet.", no_analyses_sub:"Upload a photo of your crop to get an instant AI read.",
+  analyzing:"Analyzing imageâ€¦",
+  recent_analyses:"Recent analyses",
+  recommendation:"Recommendation",
+  disease_status:"Health status", disease_name:"Detected issue", severity:"Severity", confidence:"Confidence",
+  ripeness_stage:"Ripeness stage", days_window:"Best harvest / sale window", sugar_est:"Estimated sugar content",
+  grade_result:"Market grade", size_uniformity:"Size uniformity", surface_quality:"Surface quality", est_price:"Estimated market price",
+  cart_h:"Your cart", cart_p:"Review your items before checkout.",
+  cart_empty_h:"Your cart is empty.", cart_empty_btn:"Continue shopping",
+  cart_item:"Item", cart_price:"Price", cart_qty:"Qty", cart_subtotal:"Subtotal", cart_remove:"Remove",
+  order_summary:"Order summary", subtotal:"Subtotal", delivery:"Delivery", taxes:"Taxes (est.)", total:"Total",
+  checkout:"Checkout",
+  how_h:"How Krishi Karya works", how_p:"A simple, transparent path from field to shelf.",
+  how_farmers:"For farmers", how_retailers:"For retailers",
+  f_step1_h:"List your crop", f_step1_p:"Add photos, quantity and expected price in a few taps â€” no paperwork.",
+  f_step2_h:"Get an AI quality check", f_step2_p:"Our vision models grade disease, ripeness and quality automatically.",
+  f_step3_h:"Match with buyers", f_step3_p:"Verified retailers see your listing and place orders directly.",
+  f_step4_h:"Get paid on delivery", f_step4_p:"Payment is released once the retailer confirms receipt and grade.",
+  r_step1_h:"Browse verified listings", r_step1_p:"Filter by crop, location and quality grade to find what you need.",
+  r_step2_h:"Check the AI grade report", r_step2_p:"Every listing carries an objective quality score before you buy.",
+  r_step3_h:"Place your order", r_step3_p:"Order directly from the farm with transparent, fixed pricing.",
+  r_step4_h:"Track delivery", r_step4_p:"Follow your order from farm gate to your store's loading dock.",
+  about_h:"About Krishi Karya", about_p:"Built to put more of the retail price back in farmers' hands.",
+  about_mission_h:"Our mission",
+  about_p1:"Krishi Karya connects Indian farms directly with retail buyers, cutting out layers of intermediaries that leave farmers with a fraction of the final retail price.",
+  about_p2:"Every listing is checked with computer-vision models trained on Indian crop varieties, so buyers can trust the grade before they order â€” and farmers get paid for the quality they actually deliver.",
+  about_p3:"We started in Maharashtra's vegetable belt and are expanding district by district, working with farmer collectives and retail chains to build a fairer, faster supply chain.",
+  stat1_n:"12,400+", stat1_l:"Farmers onboarded",
+  stat2_n:"860+", stat2_l:"Retail partners",
+  stat3_n:"â‚¹41 Cr+", stat3_l:"Paid out to farmers",
+  stat4_n:"18", stat4_l:"States covered",
+  contact_h:"Contact us", contact_p:"Questions about selling, buying or partnering? We'd love to hear from you.",
+  contact_phone:"Phone", contact_email:"Email", contact_address:"Office",
+  form_name:"Full name", form_email:"Email address", form_message:"Message", form_send:"Send message",
+  form_success:"Thanks â€” your message has been sent. We'll get back to you within one business day.",
+  nf_h:"Page not found", nf_p:"The page you're looking for doesn't exist or has been moved.", nf_btn:"Go home",
+  login_title:"Log in", login_sub:"Welcome back to Krishi Karya.",
+  login_tab1:"Farmer", login_tab2:"Retailer", login_email:"Email", login_password:"Password",
+  login_btn:"Log in", login_demo:"This is a demo â€” no account is required.",
+  search_placeholder:"Search produce, farmers, toolsâ€¦",
+  toast_added_cart:"Added to cart", toast_removed_cart:"Removed from cart", toast_login_demo:"Demo only â€” no account needed",
+  breadcrumb_home:"Home",
+},
+hi:{
+  nav_home:"à¤¹à¥‹à¤®", nav_marketplace:"à¤¬à¤¾à¤œà¤¼à¤¾à¤°", nav_ai:"à¤à¤†à¤ˆ à¤Ÿà¥‚à¤²à¥à¤¸", nav_how:"à¤¯à¤¹ à¤•à¥ˆà¤¸à¥‡ à¤•à¤¾à¤® à¤•à¤°à¤¤à¤¾ à¤¹à¥ˆ",
+  nav_about:"à¤¹à¤®à¤¾à¤°à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚", nav_contact:"à¤¸à¤‚à¤ªà¤°à¥à¤•", nav_login:"à¤²à¥‰à¤—à¤¿à¤¨", nav_logout:"à¤²à¥‰à¤— à¤†à¤‰à¤Ÿ",
+  ai_disease:"à¤°à¥‹à¤— à¤ªà¤¹à¤šà¤¾à¤¨", ai_ripeness:"à¤ªà¤•à¤¨à¥‡ à¤•à¥€ à¤ªà¤¹à¤šà¤¾à¤¨", ai_quality:"à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤—à¥à¤°à¥‡à¤¡à¤¿à¤‚à¤—",
+  brand_tag:"à¤à¤†à¤ˆ-à¤¸à¤•à¥à¤·à¤® à¤•à¥ƒà¤·à¤¿ à¤–à¤°à¥€à¤¦ à¤®à¤‚à¤š",
+  hero_badge:"à¤à¤†à¤ˆ-à¤¸à¤•à¥à¤·à¤® à¤•à¥ƒà¤·à¤¿ à¤–à¤°à¥€à¤¦ à¤®à¤‚à¤š",
+  hero_h1:"à¤•à¤¿à¤¸à¤¾à¤¨à¥‹à¤‚ à¤•à¥‹ à¤‰à¤šà¤¿à¤¤ à¤¦à¤¾à¤®à¥¤ à¤°à¤¿à¤Ÿà¥‡à¤²à¤°à¥à¤¸ à¤•à¥‹ à¤­à¤°à¥‹à¤¸à¥‡à¤®à¤‚à¤¦ à¤†à¤ªà¥‚à¤°à¥à¤¤à¤¿à¥¤",
+  hero_lede:"à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯ à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤–à¥‡à¤¤à¥‹à¤‚ à¤•à¥‹ à¤¸à¥€à¤§à¥‡ à¤°à¤¿à¤Ÿà¥‡à¤² à¤–à¤°à¥€à¤¦à¤¾à¤°à¥‹à¤‚ à¤¸à¥‡ à¤œà¥‹à¤¡à¤¼à¤¤à¤¾ à¤¹à¥ˆ, à¤¹à¤° à¤«à¤¸à¤² à¤ªà¤° à¤°à¥‹à¤—, à¤ªà¤•à¤¨à¥‡ à¤”à¤° à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤•à¥€ à¤à¤†à¤ˆ à¤œà¤¾à¤à¤š à¤•à¥‡ à¤¸à¤¾à¤¥à¥¤",
+  hero_cta1:"à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤¦à¥‡à¤–à¥‡à¤‚", hero_cta2:"à¤…à¤ªà¤¨à¥€ à¤‰à¤ªà¤œ à¤¬à¥‡à¤šà¥‡à¤‚",
+  feat1_h:"à¤¸à¤¤à¥à¤¯à¤¾à¤ªà¤¿à¤¤ à¤•à¤¿à¤¸à¤¾à¤¨", feat1_p:"à¤¸à¥‚à¤šà¥€ à¤®à¥‡à¤‚ à¤¶à¤¾à¤®à¤¿à¤² à¤¹à¥‹à¤¨à¥‡ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤¹à¤° à¤µà¤¿à¤•à¥à¤°à¥‡à¤¤à¤¾ à¤•à¥€ à¤ªà¤¹à¤šà¤¾à¤¨ à¤”à¤° à¤¸à¥à¤¥à¤¾à¤¨ à¤¸à¤¤à¥à¤¯à¤¾à¤ªà¤¿à¤¤ à¤•à¤¿à¤¯à¤¾ à¤œà¤¾à¤¤à¤¾ à¤¹à¥ˆà¥¤",
+  feat2_h:"à¤ªà¥ˆà¤¨-à¤‡à¤‚à¤¡à¤¿à¤¯à¤¾ à¤²à¥‰à¤œà¤¿à¤¸à¥à¤Ÿà¤¿à¤•à¥à¤¸", feat2_p:"à¤–à¥‡à¤¤ à¤¸à¥‡ à¤¦à¥à¤•à¤¾à¤¨ à¤¤à¤• à¤•à¥‹à¤²à¥à¤¡-à¤šà¥‡à¤¨ à¤”à¤° à¤…à¤‚à¤¤à¤¿à¤®-à¤®à¥€à¤² à¤¡à¤¿à¤²à¥€à¤µà¤°à¥€ à¤Ÿà¥à¤°à¥ˆà¤• à¤•à¥€ à¤œà¤¾à¤¤à¥€ à¤¹à¥ˆà¥¤",
+  feat3_h:"à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤•à¥€ à¤—à¤¾à¤°à¤‚à¤Ÿà¥€", feat3_p:"à¤¹à¤° à¤–à¥‡à¤ª à¤­à¥‡à¤œà¥‡ à¤œà¤¾à¤¨à¥‡ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤—à¥à¤°à¥‡à¤¡ à¤•à¥€ à¤œà¤¾à¤¤à¥€ à¤¹à¥ˆ, à¤¤à¥‹ à¤œà¥‹ à¤†à¤ª à¤¦à¥‡à¤–à¤¤à¥‡ à¤¹à¥ˆà¤‚ à¤µà¤¹à¥€ à¤ªà¤¹à¥à¤à¤šà¤¤à¤¾ à¤¹à¥ˆà¥¤",
+  feat4_h:"à¤à¤†à¤ˆ-à¤¸à¤‚à¤šà¤¾à¤²à¤¿à¤¤ à¤œà¤¾à¤à¤š", feat4_p:"à¤•à¤‚à¤ªà¥à¤¯à¥‚à¤Ÿà¤° à¤µà¤¿à¤œà¤¼à¤¨ à¤¸à¥‡à¤•à¤‚à¤¡à¥‹à¤‚ à¤®à¥‡à¤‚ à¤°à¥‹à¤—, à¤ªà¤•à¤¨à¥‡ à¤”à¤° à¤—à¥à¤°à¥‡à¤¡ à¤•à¥€ à¤ªà¤¹à¤šà¤¾à¤¨ à¤•à¤°à¤¤à¤¾ à¤¹à¥ˆà¥¤",
+  fresh_h:"à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤®à¥‡à¤‚ à¤¤à¤¾à¤œà¤¼à¤¾", fresh_p:"à¤¸à¤¤à¥à¤¯à¤¾à¤ªà¤¿à¤¤ à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤–à¥‡à¤¤à¥‹à¤‚ à¤¸à¥‡ à¤¹à¤¾à¤² à¤¹à¥€ à¤®à¥‡à¤‚ à¤¸à¥‚à¤šà¥€à¤¬à¤¦à¥à¤§ à¤‰à¤ªà¤œà¥¤",
+  view_all:"à¤¸à¤­à¥€ à¤¦à¥‡à¤–à¥‡à¤‚",
+  tools_h:"à¤–à¥‡à¤¤ à¤•à¥‡ à¤²à¤¿à¤ à¤¬à¤¨à¥‡ à¤à¤†à¤ˆ à¤Ÿà¥‚à¤²à¥à¤¸", tools_p:"à¤à¤• à¤«à¥‹à¤Ÿà¥‹ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤«à¤¸à¤² à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯, à¤ªà¤•à¤¨à¥‡ à¤”à¤° à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤° à¤¤à¥à¤°à¤‚à¤¤ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€ à¤ªà¤¾à¤à¤à¥¤",
+  tool_disease_d:"à¤à¥à¤²à¤¸à¤¾, à¤¸à¤¡à¤¼à¤¨ à¤”à¤° à¤•à¥€à¤Ÿ à¤•à¥à¤·à¤¤à¤¿ à¤•à¥‡ à¤¶à¥à¤°à¥à¤†à¤¤à¥€ à¤¸à¤‚à¤•à¥‡à¤¤à¥‹à¤‚ à¤•à¥‹ à¤–à¥‡à¤ª à¤®à¥‡à¤‚ à¤«à¥ˆà¤²à¤¨à¥‡ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤ªà¤¹à¤šà¤¾à¤¨à¥‡à¤‚à¥¤",
+  tool_ripeness_d:"à¤œà¤¾à¤¨à¥‡à¤‚ à¤•à¤¿ à¤«à¤¸à¤² à¤•à¤Ÿà¤¾à¤ˆ, à¤¬à¤¿à¤•à¥à¤°à¥€ à¤¯à¤¾ à¤­à¤‚à¤¡à¤¾à¤°à¤£ à¤•à¥‡ à¤²à¤¿à¤ à¤ à¥€à¤• à¤•à¤¬ à¤ªà¥‚à¤°à¥€ à¤¤à¤°à¤¹ à¤ªà¤• à¤šà¥à¤•à¥€ à¤¹à¥ˆà¥¤",
+  tool_quality_d:"à¤†à¤•à¤¾à¤°, à¤°à¤‚à¤— à¤”à¤° à¤¸à¤¤à¤¹ à¤•à¥€ à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤•à¥‡ à¤†à¤§à¤¾à¤° à¤ªà¤° à¤µà¤¸à¥à¤¤à¥à¤¨à¤¿à¤·à¥à¤  A/B/C à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤¾à¤à¤à¥¤",
+  upload_image:"à¤«à¥‹à¤Ÿà¥‹ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚",
+  cta_farmer_h:"à¤‡à¤¸ à¤®à¥Œà¤¸à¤® à¤•à¥€ à¤«à¤¸à¤² à¤¬à¥‡à¤š à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚?", cta_farmer_p:"à¤®à¤¿à¤¨à¤Ÿà¥‹à¤‚ à¤®à¥‡à¤‚ à¤…à¤ªà¤¨à¥€ à¤«à¤¸à¤² à¤¸à¥‚à¤šà¥€à¤¬à¤¦à¥à¤§ à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤¬à¤¿à¤¨à¤¾ à¤¬à¤¿à¤šà¥Œà¤²à¤¿à¤¯à¥‹à¤‚ à¤•à¥‡ à¤ªà¥‚à¤°à¥‡ à¤­à¤¾à¤°à¤¤ à¤•à¥‡ à¤°à¤¿à¤Ÿà¥‡à¤² à¤–à¤°à¥€à¤¦à¤¾à¤°à¥‹à¤‚ à¤¤à¤• à¤ªà¤¹à¥à¤à¤šà¥‡à¤‚à¥¤",
+  cta_farmer_btn:"à¤…à¤ªà¤¨à¥€ à¤‰à¤ªà¤œ à¤¬à¥‡à¤šà¥‡à¤‚",
+  cta_retailer_h:"à¤…à¤ªà¤¨à¥€ à¤¦à¥à¤•à¤¾à¤¨ à¤•à¥‡ à¤²à¤¿à¤ à¤–à¤°à¥€à¤¦ à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚?", cta_retailer_p:"à¤…à¤ªà¤¨à¥‡ à¤†à¤¸-à¤ªà¤¾à¤¸ à¤•à¥‡ à¤–à¥‡à¤¤à¥‹à¤‚ à¤¸à¥‡ à¤—à¥à¤°à¥‡à¤¡ à¤•à¥€ à¤—à¤ˆ, à¤¸à¤¤à¥à¤¯à¤¾à¤ªà¤¿à¤¤ à¤‰à¤ªà¤œ à¤¬à¥à¤°à¤¾à¤‰à¤œà¤¼ à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤­à¤°à¥‹à¤¸à¥‡ à¤•à¥‡ à¤¸à¤¾à¤¥ à¤‘à¤°à¥à¤¡à¤° à¤•à¤°à¥‡à¤‚à¥¤",
+  cta_retailer_btn:"à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤¬à¥à¤°à¤¾à¤‰à¤œà¤¼ à¤•à¤°à¥‡à¤‚",
+  footer_tag:"à¤à¤†à¤ˆ-à¤¸à¤•à¥à¤·à¤® à¤•à¥ƒà¤·à¤¿ à¤–à¤°à¥€à¤¦ à¤®à¤‚à¤š, à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤–à¥‡à¤¤à¥‹à¤‚ à¤•à¥‹ à¤°à¤¿à¤Ÿà¥‡à¤² à¤–à¤°à¥€à¤¦à¤¾à¤°à¥‹à¤‚ à¤¸à¥‡ à¤œà¥‹à¤¡à¤¼à¤¤à¤¾ à¤¹à¥ˆà¥¤",
+  footer_platform:"à¤®à¤‚à¤š", footer_company:"à¤•à¤‚à¤ªà¤¨à¥€", footer_contact:"à¤¸à¤‚à¤ªà¤°à¥à¤•",
+  footer_about:"à¤¹à¤®à¤¾à¤°à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚", footer_how:"à¤¯à¤¹ à¤•à¥ˆà¤¸à¥‡ à¤•à¤¾à¤® à¤•à¤°à¤¤à¤¾ à¤¹à¥ˆ", footer_contact_link:"à¤¸à¤‚à¤ªà¤°à¥à¤•",
+  footer_rights:"Â© 2026 à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯. à¤¸à¤°à¥à¤µà¤¾à¤§à¤¿à¤•à¤¾à¤° à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤à¥¤",
+  mkt_h:"à¤¬à¤¾à¤œà¤¼à¤¾à¤°", mkt_p:"à¤¸à¤¤à¥à¤¯à¤¾à¤ªà¤¿à¤¤ à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤–à¥‡à¤¤à¥‹à¤‚ à¤¸à¥‡ à¤¸à¥€à¤§à¥€ à¤¤à¤¾à¤œà¤¼à¤¾ à¤‰à¤ªà¤œà¥¤",
+  filters:"à¤«à¤¼à¤¿à¤²à¥à¤Ÿà¤°", search_ph:"à¤«à¤¸à¤²à¥‡à¤‚, à¤•à¤¿à¤¸à¥à¤®à¥‡à¤‚, à¤•à¤¿à¤¸à¤¾à¤¨ à¤–à¥‹à¤œà¥‡à¤‚â€¦",
+  category:"à¤¶à¥à¤°à¥‡à¤£à¥€", all_categories:"à¤¸à¤­à¥€ à¤¶à¥à¤°à¥‡à¤£à¤¿à¤¯à¤¾à¤",
+  location:"à¤¸à¥à¤¥à¤¾à¤¨", all_locations:"à¤¸à¤­à¥€ à¤¸à¥à¤¥à¤¾à¤¨",
+  quality_grade:"à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤—à¥à¤°à¥‡à¤¡", sort_by:"à¤•à¥à¤°à¤®à¤¬à¤¦à¥à¤§ à¤•à¤°à¥‡à¤‚",
+  sort_newest:"à¤¨à¤µà¥€à¤¨à¤¤à¤®", sort_price_low:"à¤•à¥€à¤®à¤¤: à¤•à¤® à¤¸à¥‡ à¤œà¤¼à¥à¤¯à¤¾à¤¦à¤¾", sort_price_high:"à¤•à¥€à¤®à¤¤: à¤œà¤¼à¥à¤¯à¤¾à¤¦à¤¾ à¤¸à¥‡ à¤•à¤®", sort_grade:"à¤—à¥à¤°à¥‡à¤¡: à¤¸à¤°à¥à¤µà¤¶à¥à¤°à¥‡à¤·à¥à¤  à¤ªà¤¹à¤²à¥‡",
+  clear_filters:"à¤«à¤¼à¤¿à¤²à¥à¤Ÿà¤° à¤¹à¤Ÿà¤¾à¤à¤",
+  results_showing:"à¤¦à¤¿à¤–à¤¾ à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚", results_of:"à¤®à¥‡à¤‚ à¤¸à¥‡", results_listings:"à¤¸à¥‚à¤šà¤¿à¤¯à¤¾à¤",
+  no_results_h:"à¤•à¥‹à¤ˆ à¤‰à¤ªà¤œ à¤†à¤ªà¤•à¥‡ à¤«à¤¼à¤¿à¤²à¥à¤Ÿà¤° à¤¸à¥‡ à¤®à¥‡à¤² à¤¨à¤¹à¥€à¤‚ à¤–à¤¾à¤¤à¥€à¥¤", no_results_p:"à¤…à¤ªà¤¨à¥€ à¤–à¥‹à¤œ à¤µà¥à¤¯à¤¾à¤ªà¤• à¤•à¤°à¥‡à¤‚ à¤¯à¤¾ à¤«à¤¼à¤¿à¤²à¥à¤Ÿà¤° à¤¹à¤Ÿà¤¾à¤à¤à¥¤",
+  add_to_cart:"à¤•à¤¾à¤°à¥à¤Ÿ à¤®à¥‡à¤‚ à¤œà¥‹à¤¡à¤¼à¥‡à¤‚", added:"à¤œà¥‹à¤¡à¤¼à¤¾ à¤—à¤¯à¤¾",
+  per_kg:"/ à¤•à¤¿à¤—à¥à¤°à¤¾", per_qtl:"/ à¤•à¥à¤µà¤¿à¤‚à¤Ÿà¤²", per_dozen:"/ à¤¦à¤°à¥à¤œà¤¨",
+  ai_disease_h:"à¤°à¥‹à¤— à¤ªà¤¹à¤šà¤¾à¤¨", ai_disease_p:"à¤à¤• à¤«à¥‹à¤Ÿà¥‹ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤«à¤¸à¤² à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯, à¤ªà¤•à¤¨à¥‡ à¤”à¤° à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤° à¤¤à¥à¤°à¤‚à¤¤ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€ à¤ªà¤¾à¤à¤à¥¤",
+  ai_ripeness_h:"à¤ªà¤•à¤¨à¥‡ à¤•à¥€ à¤ªà¤¹à¤šà¤¾à¤¨", ai_ripeness_p:"à¤à¤• à¤«à¥‹à¤Ÿà¥‹ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤«à¤¸à¤² à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯, à¤ªà¤•à¤¨à¥‡ à¤”à¤° à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤° à¤¤à¥à¤°à¤‚à¤¤ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€ à¤ªà¤¾à¤à¤à¥¤",
+  ai_quality_h:"à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤—à¥à¤°à¥‡à¤¡à¤¿à¤‚à¤—", ai_quality_p:"à¤à¤• à¤«à¥‹à¤Ÿà¥‹ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤«à¤¸à¤² à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯, à¤ªà¤•à¤¨à¥‡ à¤”à¤° à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤° à¤¤à¥à¤°à¤‚à¤¤ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€ à¤ªà¤¾à¤à¤à¥¤",
+  dz_h:"à¤«à¥‹à¤Ÿà¥‹ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚", dz_p:"à¤à¤• à¤¸à¥à¤ªà¤·à¥à¤Ÿ à¤«à¥‹à¤Ÿà¥‹ à¤–à¥€à¤‚à¤šà¤•à¤° à¤›à¥‹à¤¡à¤¼à¥‡à¤‚, à¤¯à¤¾ à¤¬à¥à¤°à¤¾à¤‰à¤œà¤¼ à¤•à¤°à¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤•à¥à¤²à¤¿à¤• à¤•à¤°à¥‡à¤‚", dz_hint:"(JPG/PNG, à¤…à¤§à¤¿à¤•à¤¤à¤® 8 MB)",
+  no_analyses:"à¤…à¤­à¥€ à¤¤à¤• à¤•à¥‹à¤ˆ à¤µà¤¿à¤¶à¥à¤²à¥‡à¤·à¤£ à¤¨à¤¹à¥€à¤‚à¥¤", no_analyses_sub:"à¤¤à¥à¤°à¤‚à¤¤ à¤à¤†à¤ˆ à¤œà¤¾à¤¨à¤•à¤¾à¤°à¥€ à¤ªà¤¾à¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤…à¤ªà¤¨à¥€ à¤«à¤¸à¤² à¤•à¥€ à¤«à¥‹à¤Ÿà¥‹ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¥‡à¤‚à¥¤",
+  analyzing:"à¤«à¥‹à¤Ÿà¥‹ à¤•à¤¾ à¤µà¤¿à¤¶à¥à¤²à¥‡à¤·à¤£ à¤¹à¥‹ à¤°à¤¹à¤¾ à¤¹à¥ˆâ€¦",
+  recent_analyses:"à¤¹à¤¾à¤² à¤•à¥‡ à¤µà¤¿à¤¶à¥à¤²à¥‡à¤·à¤£",
+  recommendation:"à¤¸à¤¿à¤«à¤¼à¤¾à¤°à¤¿à¤¶",
+  disease_status:"à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯ à¤¸à¥à¤¥à¤¿à¤¤à¤¿", disease_name:"à¤ªà¤¹à¤šà¤¾à¤¨à¥€ à¤—à¤ˆ à¤¸à¤®à¤¸à¥à¤¯à¤¾", severity:"à¤—à¤‚à¤­à¥€à¤°à¤¤à¤¾", confidence:"à¤µà¤¿à¤¶à¥à¤µà¤¾à¤¸ à¤¸à¥à¤¤à¤°",
+  ripeness_stage:"à¤ªà¤•à¤¨à¥‡ à¤•à¥€ à¤…à¤µà¤¸à¥à¤¥à¤¾", days_window:"à¤•à¤Ÿà¤¾à¤ˆ/à¤¬à¤¿à¤•à¥à¤°à¥€ à¤•à¥€ à¤¸à¤°à¥à¤µà¤¶à¥à¤°à¥‡à¤·à¥à¤  à¤…à¤µà¤§à¤¿", sugar_est:"à¤…à¤¨à¥à¤®à¤¾à¤¨à¤¿à¤¤ à¤¶à¤°à¥à¤•à¤°à¤¾ à¤®à¤¾à¤¤à¥à¤°à¤¾",
+  grade_result:"à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤—à¥à¤°à¥‡à¤¡", size_uniformity:"à¤†à¤•à¤¾à¤° à¤à¤•à¤°à¥‚à¤ªà¤¤à¤¾", surface_quality:"à¤¸à¤¤à¤¹ à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾", est_price:"à¤…à¤¨à¥à¤®à¤¾à¤¨à¤¿à¤¤ à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤®à¥‚à¤²à¥à¤¯",
+  cart_h:"à¤†à¤ªà¤•à¤¾ à¤•à¤¾à¤°à¥à¤Ÿ", cart_p:"à¤šà¥‡à¤•à¤†à¤‰à¤Ÿ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤…à¤ªà¤¨à¥€ à¤µà¤¸à¥à¤¤à¥à¤“à¤‚ à¤•à¥€ à¤¸à¤®à¥€à¤•à¥à¤·à¤¾ à¤•à¤°à¥‡à¤‚à¥¤",
+  cart_empty_h:"à¤†à¤ªà¤•à¤¾ à¤•à¤¾à¤°à¥à¤Ÿ à¤–à¤¾à¤²à¥€ à¤¹à¥ˆà¥¤", cart_empty_btn:"à¤–à¤°à¥€à¤¦à¤¾à¤°à¥€ à¤œà¤¾à¤°à¥€ à¤°à¤–à¥‡à¤‚",
+  cart_item:"à¤µà¤¸à¥à¤¤à¥", cart_price:"à¤•à¥€à¤®à¤¤", cart_qty:"à¤®à¤¾à¤¤à¥à¤°à¤¾", cart_subtotal:"à¤‰à¤ª-à¤¯à¥‹à¤—", cart_remove:"à¤¹à¤Ÿà¤¾à¤à¤",
+  order_summary:"à¤‘à¤°à¥à¤¡à¤° à¤¸à¤¾à¤°à¤¾à¤‚à¤¶", subtotal:"à¤‰à¤ª-à¤¯à¥‹à¤—", delivery:"à¤¡à¤¿à¤²à¥€à¤µà¤°à¥€", taxes:"à¤•à¤° (à¤…à¤¨à¥à¤®à¤¾à¤¨à¤¿à¤¤)", total:"à¤•à¥à¤²",
+  checkout:"à¤šà¥‡à¤•à¤†à¤‰à¤Ÿ à¤•à¤°à¥‡à¤‚",
+  how_h:"à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯ à¤•à¥ˆà¤¸à¥‡ à¤•à¤¾à¤® à¤•à¤°à¤¤à¤¾ à¤¹à¥ˆ", how_p:"à¤–à¥‡à¤¤ à¤¸à¥‡ à¤¦à¥à¤•à¤¾à¤¨ à¤¤à¤• à¤à¤• à¤¸à¤°à¤², à¤ªà¤¾à¤°à¤¦à¤°à¥à¤¶à¥€ à¤°à¤¾à¤¸à¥à¤¤à¤¾à¥¤",
+  how_farmers:"à¤•à¤¿à¤¸à¤¾à¤¨à¥‹à¤‚ à¤•à¥‡ à¤²à¤¿à¤", how_retailers:"à¤°à¤¿à¤Ÿà¥‡à¤²à¤°à¥à¤¸ à¤•à¥‡ à¤²à¤¿à¤",
+  f_step1_h:"à¤…à¤ªà¤¨à¥€ à¤«à¤¸à¤² à¤¸à¥‚à¤šà¥€à¤¬à¤¦à¥à¤§ à¤•à¤°à¥‡à¤‚", f_step1_p:"à¤•à¥à¤› à¤Ÿà¥ˆà¤ª à¤®à¥‡à¤‚ à¤«à¥‹à¤Ÿà¥‹, à¤®à¤¾à¤¤à¥à¤°à¤¾ à¤”à¤° à¤…à¤ªà¥‡à¤•à¥à¤·à¤¿à¤¤ à¤•à¥€à¤®à¤¤ à¤œà¥‹à¤¡à¤¼à¥‡à¤‚ â€” à¤•à¥‹à¤ˆ à¤•à¤¾à¤—à¤œà¤¼à¥€ à¤•à¤¾à¤°à¥à¤°à¤µà¤¾à¤ˆ à¤¨à¤¹à¥€à¤‚à¥¤",
+  f_step2_h:"à¤à¤†à¤ˆ à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤œà¤¾à¤à¤š à¤ªà¤¾à¤à¤", f_step2_p:"à¤¹à¤®à¤¾à¤°à¥‡ à¤µà¤¿à¤œà¤¼à¤¨ à¤®à¥‰à¤¡à¤² à¤°à¥‹à¤—, à¤ªà¤•à¤¨à¥‡ à¤”à¤° à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤•à¥‹ à¤¸à¥à¤µà¤šà¤¾à¤²à¤¿à¤¤ à¤°à¥‚à¤ª à¤¸à¥‡ à¤—à¥à¤°à¥‡à¤¡ à¤•à¤°à¤¤à¥‡ à¤¹à¥ˆà¤‚à¥¤",
+  f_step3_h:"à¤–à¤°à¥€à¤¦à¤¾à¤°à¥‹à¤‚ à¤¸à¥‡ à¤®à¤¿à¤²à¥‡à¤‚", f_step3_p:"à¤¸à¤¤à¥à¤¯à¤¾à¤ªà¤¿à¤¤ à¤°à¤¿à¤Ÿà¥‡à¤²à¤° à¤†à¤ªà¤•à¥€ à¤¸à¥‚à¤šà¥€ à¤¦à¥‡à¤–à¤¤à¥‡ à¤¹à¥ˆà¤‚ à¤”à¤° à¤¸à¥€à¤§à¥‡ à¤‘à¤°à¥à¤¡à¤° à¤¦à¥‡à¤¤à¥‡ à¤¹à¥ˆà¤‚à¥¤",
+  f_step4_h:"à¤¡à¤¿à¤²à¥€à¤µà¤°à¥€ à¤ªà¤° à¤­à¥à¤—à¤¤à¤¾à¤¨ à¤ªà¤¾à¤à¤", f_step4_p:"à¤°à¤¿à¤Ÿà¥‡à¤²à¤° à¤¦à¥à¤µà¤¾à¤°à¤¾ à¤ªà¥à¤°à¤¾à¤ªà¥à¤¤à¤¿ à¤”à¤° à¤—à¥à¤°à¥‡à¤¡ à¤•à¥€ à¤ªà¥à¤·à¥à¤Ÿà¤¿ à¤•à¤°à¤¨à¥‡ à¤•à¥‡ à¤¬à¤¾à¤¦ à¤­à¥à¤—à¤¤à¤¾à¤¨ à¤œà¤¾à¤°à¥€ à¤•à¤¿à¤¯à¤¾ à¤œà¤¾à¤¤à¤¾ à¤¹à¥ˆà¥¤",
+  r_step1_h:"à¤¸à¤¤à¥à¤¯à¤¾à¤ªà¤¿à¤¤ à¤¸à¥‚à¤šà¤¿à¤¯à¤¾à¤ à¤¬à¥à¤°à¤¾à¤‰à¤œà¤¼ à¤•à¤°à¥‡à¤‚", r_step1_p:"à¤…à¤ªà¤¨à¥€ à¤œà¤¼à¤°à¥‚à¤°à¤¤ à¤–à¥‹à¤œà¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤«à¤¸à¤², à¤¸à¥à¤¥à¤¾à¤¨ à¤”à¤° à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤—à¥à¤°à¥‡à¤¡ à¤¸à¥‡ à¤«à¤¼à¤¿à¤²à¥à¤Ÿà¤° à¤•à¤°à¥‡à¤‚à¥¤",
+  r_step2_h:"à¤à¤†à¤ˆ à¤—à¥à¤°à¥‡à¤¡ à¤°à¤¿à¤ªà¥‹à¤°à¥à¤Ÿ à¤œà¤¾à¤à¤šà¥‡à¤‚", r_step2_p:"à¤–à¤°à¥€à¤¦à¤¨à¥‡ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤¹à¤° à¤¸à¥‚à¤šà¥€ à¤®à¥‡à¤‚ à¤à¤• à¤µà¤¸à¥à¤¤à¥à¤¨à¤¿à¤·à¥à¤  à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤¸à¥à¤•à¥‹à¤° à¤¹à¥‹à¤¤à¤¾ à¤¹à¥ˆà¥¤",
+  r_step3_h:"à¤…à¤ªà¤¨à¤¾ à¤‘à¤°à¥à¤¡à¤° à¤¦à¥‡à¤‚", r_step3_p:"à¤ªà¤¾à¤°à¤¦à¤°à¥à¤¶à¥€, à¤¨à¤¿à¤¶à¥à¤šà¤¿à¤¤ à¤•à¥€à¤®à¤¤ à¤•à¥‡ à¤¸à¤¾à¤¥ à¤¸à¥€à¤§à¥‡ à¤–à¥‡à¤¤ à¤¸à¥‡ à¤‘à¤°à¥à¤¡à¤° à¤•à¤°à¥‡à¤‚à¥¤",
+  r_step4_h:"à¤¡à¤¿à¤²à¥€à¤µà¤°à¥€ à¤Ÿà¥à¤°à¥ˆà¤• à¤•à¤°à¥‡à¤‚", r_step4_p:"à¤–à¥‡à¤¤ à¤•à¥‡ à¤—à¥‡à¤Ÿ à¤¸à¥‡ à¤…à¤ªà¤¨à¥€ à¤¦à¥à¤•à¤¾à¤¨ à¤•à¥‡ à¤²à¥‹à¤¡à¤¿à¤‚à¤— à¤¡à¥‰à¤• à¤¤à¤• à¤…à¤ªà¤¨à¥‡ à¤‘à¤°à¥à¤¡à¤° à¤•à¥‹ à¤«à¤¼à¥‰à¤²à¥‹ à¤•à¤°à¥‡à¤‚à¥¤",
+  about_h:"à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯ à¤•à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚", about_p:"à¤°à¤¿à¤Ÿà¥‡à¤² à¤•à¥€à¤®à¤¤ à¤•à¤¾ à¤…à¤§à¤¿à¤• à¤¹à¤¿à¤¸à¥à¤¸à¤¾ à¤•à¤¿à¤¸à¤¾à¤¨à¥‹à¤‚ à¤•à¥‡ à¤¹à¤¾à¤¥à¥‹à¤‚ à¤®à¥‡à¤‚ à¤µà¤¾à¤ªà¤¸ à¤²à¤¾à¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤¬à¤¨à¤¾à¤¯à¤¾ à¤—à¤¯à¤¾à¥¤",
+  about_mission_h:"à¤¹à¤®à¤¾à¤°à¤¾ à¤®à¤¿à¤¶à¤¨",
+  about_p1:"à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯ à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤–à¥‡à¤¤à¥‹à¤‚ à¤•à¥‹ à¤¸à¥€à¤§à¥‡ à¤°à¤¿à¤Ÿà¥‡à¤² à¤–à¤°à¥€à¤¦à¤¾à¤°à¥‹à¤‚ à¤¸à¥‡ à¤œà¥‹à¤¡à¤¼à¤¤à¤¾ à¤¹à¥ˆ, à¤¬à¤¿à¤šà¥Œà¤²à¤¿à¤¯à¥‹à¤‚ à¤•à¥€ à¤ªà¤°à¤¤à¥‹à¤‚ à¤•à¥‹ à¤¹à¤Ÿà¤¾à¤•à¤° à¤œà¥‹ à¤•à¤¿à¤¸à¤¾à¤¨à¥‹à¤‚ à¤•à¥‹ à¤…à¤‚à¤¤à¤¿à¤® à¤°à¤¿à¤Ÿà¥‡à¤² à¤•à¥€à¤®à¤¤ à¤•à¤¾ à¤à¤• à¤›à¥‹à¤Ÿà¤¾ à¤¹à¤¿à¤¸à¥à¤¸à¤¾ à¤¹à¥€ à¤›à¥‹à¤¡à¤¼à¤¤à¥€ à¤¥à¥€à¤‚à¥¤",
+  about_p2:"à¤¹à¤° à¤¸à¥‚à¤šà¥€ à¤•à¥€ à¤œà¤¾à¤à¤š à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤«à¤¸à¤² à¤•à¤¿à¤¸à¥à¤®à¥‹à¤‚ à¤ªà¤° à¤ªà¥à¤°à¤¶à¤¿à¤•à¥à¤·à¤¿à¤¤ à¤•à¤‚à¤ªà¥à¤¯à¥‚à¤Ÿà¤°-à¤µà¤¿à¤œà¤¼à¤¨ à¤®à¥‰à¤¡à¤² à¤¸à¥‡ à¤•à¥€ à¤œà¤¾à¤¤à¥€ à¤¹à¥ˆ, à¤¤à¤¾à¤•à¤¿ à¤–à¤°à¥€à¤¦à¤¾à¤° à¤‘à¤°à¥à¤¡à¤° à¤•à¤°à¤¨à¥‡ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤° à¤­à¤°à¥‹à¤¸à¤¾ à¤•à¤° à¤¸à¤•à¥‡à¤‚ â€” à¤”à¤° à¤•à¤¿à¤¸à¤¾à¤¨à¥‹à¤‚ à¤•à¥‹ à¤‰à¤¨à¤•à¥€ à¤…à¤¸à¤²à¥€ à¤—à¥à¤£à¤µà¤¤à¥à¤¤à¤¾ à¤•à¥‡ à¤²à¤¿à¤ à¤­à¥à¤—à¤¤à¤¾à¤¨ à¤®à¤¿à¤²à¥‡à¥¤",
+  about_p3:"à¤¹à¤®à¤¨à¥‡ à¤®à¤¹à¤¾à¤°à¤¾à¤·à¥à¤Ÿà¥à¤° à¤•à¥€ à¤¸à¤¬à¥à¤œà¤¼à¥€ à¤ªà¤Ÿà¥à¤Ÿà¥€ à¤¸à¥‡ à¤¶à¥à¤°à¥à¤†à¤¤ à¤•à¥€ à¤”à¤° à¤•à¤¿à¤¸à¤¾à¤¨ à¤¸à¤®à¥‚à¤¹à¥‹à¤‚ à¤¤à¤¥à¤¾ à¤°à¤¿à¤Ÿà¥‡à¤² à¤šà¥‡à¤¨ à¤•à¥‡ à¤¸à¤¾à¤¥ à¤®à¤¿à¤²à¤•à¤° à¤à¤• à¤¨à¤¿à¤·à¥à¤ªà¤•à¥à¤·, à¤¤à¥‡à¤œà¤¼ à¤†à¤ªà¥‚à¤°à¥à¤¤à¤¿ à¤¶à¥à¤°à¥ƒà¤‚à¤–à¤²à¤¾ à¤¬à¤¨à¤¾à¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤œà¤¼à¤¿à¤²à¥‡-à¤¦à¤°-à¤œà¤¼à¤¿à¤²à¥‡ à¤µà¤¿à¤¸à¥à¤¤à¤¾à¤° à¤•à¤° à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚à¥¤",
+  stat1_n:"12,400+", stat1_l:"à¤ªà¤‚à¤œà¥€à¤•à¥ƒà¤¤ à¤•à¤¿à¤¸à¤¾à¤¨",
+  stat2_n:"860+", stat2_l:"à¤°à¤¿à¤Ÿà¥‡à¤² à¤­à¤¾à¤—à¥€à¤¦à¤¾à¤°",
+  stat3_n:"â‚¹41 à¤•à¤°à¥‹à¤¡à¤¼+", stat3_l:"à¤•à¤¿à¤¸à¤¾à¤¨à¥‹à¤‚ à¤•à¥‹ à¤­à¥à¤—à¤¤à¤¾à¤¨",
+  stat4_n:"18", stat4_l:"à¤•à¤µà¤° à¤•à¤¿à¤ à¤—à¤ à¤°à¤¾à¤œà¥à¤¯",
+  contact_h:"à¤¹à¤®à¤¸à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚", contact_p:"à¤¬à¥‡à¤šà¤¨à¥‡, à¤–à¤°à¥€à¤¦à¤¨à¥‡ à¤¯à¤¾ à¤¸à¤¾à¤à¥‡à¤¦à¤¾à¤°à¥€ à¤•à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚ à¤¸à¤µà¤¾à¤² à¤¹à¥ˆà¤‚? à¤¹à¤®à¥‡à¤‚ à¤†à¤ªà¤¸à¥‡ à¤¸à¥à¤¨à¤¨à¤¾ à¤…à¤šà¥à¤›à¤¾ à¤²à¤—à¥‡à¤—à¤¾à¥¤",
+  contact_phone:"à¤«à¤¼à¥‹à¤¨", contact_email:"à¤ˆà¤®à¥‡à¤²", contact_address:"à¤•à¤¾à¤°à¥à¤¯à¤¾à¤²à¤¯",
+  form_name:"à¤ªà¥‚à¤°à¤¾ à¤¨à¤¾à¤®", form_email:"à¤ˆà¤®à¥‡à¤² à¤ªà¤¤à¤¾", form_message:"à¤¸à¤‚à¤¦à¥‡à¤¶", form_send:"à¤¸à¤‚à¤¦à¥‡à¤¶ à¤­à¥‡à¤œà¥‡à¤‚",
+  form_success:"à¤§à¤¨à¥à¤¯à¤µà¤¾à¤¦ â€” à¤†à¤ªà¤•à¤¾ à¤¸à¤‚à¤¦à¥‡à¤¶ à¤­à¥‡à¤œ à¤¦à¤¿à¤¯à¤¾ à¤—à¤¯à¤¾ à¤¹à¥ˆà¥¤ à¤¹à¤® à¤à¤• à¤•à¤¾à¤°à¥à¤¯à¤¦à¤¿à¤µà¤¸ à¤•à¥‡ à¤­à¥€à¤¤à¤° à¤†à¤ªà¤¸à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚à¤—à¥‡à¥¤",
+  nf_h:"à¤ªà¥‡à¤œ à¤¨à¤¹à¥€à¤‚ à¤®à¤¿à¤²à¤¾", nf_p:"à¤†à¤ª à¤œà¥‹ à¤ªà¥‡à¤œ à¤¢à¥‚à¤‚à¤¢ à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚ à¤µà¤¹ à¤®à¥Œà¤œà¥‚à¤¦ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆ à¤¯à¤¾ à¤¸à¥à¤¥à¤¾à¤¨à¤¾à¤‚à¤¤à¤°à¤¿à¤¤ à¤•à¤° à¤¦à¤¿à¤¯à¤¾ à¤—à¤¯à¤¾ à¤¹à¥ˆà¥¤", nf_btn:"à¤¹à¥‹à¤® à¤ªà¤° à¤œà¤¾à¤à¤",
+  login_title:"à¤²à¥‰à¤— à¤‡à¤¨ à¤•à¤°à¥‡à¤‚", login_sub:"à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯ à¤®à¥‡à¤‚ à¤µà¤¾à¤ªà¤¸à¥€ à¤ªà¤° à¤¸à¥à¤µà¤¾à¤—à¤¤ à¤¹à¥ˆà¥¤",
+  login_tab1:"à¤•à¤¿à¤¸à¤¾à¤¨", login_tab2:"à¤°à¤¿à¤Ÿà¥‡à¤²à¤°", login_email:"à¤ˆà¤®à¥‡à¤²", login_password:"à¤ªà¤¾à¤¸à¤µà¤°à¥à¤¡",
+  login_btn:"à¤²à¥‰à¤— à¤‡à¤¨ à¤•à¤°à¥‡à¤‚", login_demo:"à¤¯à¤¹ à¤à¤• à¤¡à¥‡à¤®à¥‹ à¤¹à¥ˆ â€” à¤•à¤¿à¤¸à¥€ à¤–à¤¾à¤¤à¥‡ à¤•à¥€ à¤†à¤µà¤¶à¥à¤¯à¤•à¤¤à¤¾ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆà¥¤",
+  search_placeholder:"à¤‰à¤ªà¤œ, à¤•à¤¿à¤¸à¤¾à¤¨, à¤Ÿà¥‚à¤²à¥à¤¸ à¤–à¥‹à¤œà¥‡à¤‚â€¦",
+  toast_added_cart:"à¤•à¤¾à¤°à¥à¤Ÿ à¤®à¥‡à¤‚ à¤œà¥‹à¤¡à¤¼à¤¾ à¤—à¤¯à¤¾", toast_removed_cart:"à¤•à¤¾à¤°à¥à¤Ÿ à¤¸à¥‡ à¤¹à¤Ÿà¤¾à¤¯à¤¾ à¤—à¤¯à¤¾", toast_login_demo:"à¤•à¥‡à¤µà¤² à¤¡à¥‡à¤®à¥‹ â€” à¤•à¤¿à¤¸à¥€ à¤–à¤¾à¤¤à¥‡ à¤•à¥€ à¤œà¤¼à¤°à¥‚à¤°à¤¤ à¤¨à¤¹à¥€à¤‚",
+  breadcrumb_home:"à¤¹à¥‹à¤®",
+}
+};
+
+/* ---------- App state ---------- */
+const state = {
+  lang: localStorage.getItem('kk_lang') || 'en',
+  cart: JSON.parse(localStorage.getItem('kk_cart') || '[]'),
+  mobileNavOpen:false,
+  searchOpen:false,
+  loginOpen:false,
+  loginTab:'farmer',
+  marketFilters:{ q:'', category:'all', location:'all', grade:'all', sort:'newest' },
+  aiHistory:{ disease:[], ripeness:[], quality:[] },
+  aiCurrent:{ disease:null, ripeness:null, quality:null },
+  aiLoading:{ disease:false, ripeness:false, quality:false },
+};
+function t(key){ return (I18N[state.lang] && I18N[state.lang][key]) || I18N.en[key] || key; }
+function saveCart(){ localStorage.setItem('kk_cart', JSON.stringify(state.cart)); }
+
+/* ---------- Produce data ---------- */
+const PRODUCE = [
+  {id:'p1', icon:'tomato', category:'vegetable', location:'Nashik, Maharashtra', farmer:'Vishal Pawar', grade:'A', price:28, unit:'per_kg', name:{en:'Hybrid Tomatoes', hi:'à¤¹à¤¾à¤‡à¤¬à¥à¤°à¤¿à¤¡ à¤Ÿà¤®à¤¾à¤Ÿà¤°'}, days:1},
+  {id:'p2', icon:'onion', category:'vegetable', location:'Lasalgaon, Maharashtra', farmer:'Sunita Jadhav', grade:'A', price:22, unit:'per_kg', name:{en:'Red Onions', hi:'à¤²à¤¾à¤² à¤ªà¥à¤¯à¤¾à¤œà¤¼'}, days:2},
+  {id:'p3', icon:'potato', category:'vegetable', location:'Agra, Uttar Pradesh', farmer:'Ramesh Chauhan', grade:'B', price:18, unit:'per_kg', name:{en:'Table Potatoes', hi:'à¤Ÿà¥‡à¤¬à¤² à¤†à¤²à¥‚'}, days:3},
+  {id:'p4', icon:'mango', category:'fruit', location:'Ratnagiri, Maharashtra', farmer:'Anil Salvi', grade:'A', price:420, unit:'per_dozen', name:{en:'Alphonso Mangoes', hi:'à¤…à¤²à¥à¤«à¤¾à¤‚à¤¸à¥‹ à¤†à¤®'}, days:1},
+  {id:'p5', icon:'grapes', category:'fruit', location:'Nashik, Maharashtra', farmer:'Priya Deshmukh', grade:'A', price:65, unit:'per_kg', name:{en:'Thompson Grapes', hi:'à¤¥à¥‰à¤®à¥à¤ªà¤¸à¤¨ à¤…à¤‚à¤—à¥‚à¤°'}, days:4},
+  {id:'p6', icon:'banana', category:'fruit', location:'Jalgaon, Maharashtra', farmer:'Ganesh Patil', grade:'B', price:32, unit:'per_dozen', name:{en:'Cavendish Bananas', hi:'à¤•à¥ˆà¤µà¥‡à¤‚à¤¡à¤¿à¤¶ à¤•à¥‡à¤²à¥‡'}, days:2},
+  {id:'p7', icon:'chili', category:'vegetable', location:'Guntur, Andhra Pradesh', farmer:'Lakshmi Rao', grade:'A', price:55, unit:'per_kg', name:{en:'Green Chillies', hi:'à¤¹à¤°à¥€ à¤®à¤¿à¤°à¥à¤š'}, days:1},
+  {id:'p8', icon:'cauliflower', category:'vegetable', location:'Ooty, Tamil Nadu', farmer:'Muthu Kumar', grade:'B', price:24, unit:'per_kg', name:{en:'Cauliflower', hi:'à¤«à¥‚à¤²à¤—à¥‹à¤­à¥€'}, days:5},
+  {id:'p9', icon:'wheat', category:'grain', location:'Karnal, Haryana', farmer:'Balwinder Singh', grade:'A', price:2250, unit:'per_qtl', name:{en:'Basmati Rice (Paddy)', hi:'à¤¬à¤¾à¤¸à¤®à¤¤à¥€ à¤šà¤¾à¤µà¤² (à¤§à¤¾à¤¨)'}, days:6},
+  {id:'p10', icon:'wheat', category:'grain', location:'Indore, Madhya Pradesh', farmer:'Rajendra Verma', grade:'A', price:2180, unit:'per_qtl', name:{en:'Wheat (Sharbati)', hi:'à¤—à¥‡à¤¹à¥‚à¤‚ (à¤¶à¤°à¤¬à¤¤à¥€)'}, days:3},
+  {id:'p11', icon:'carrot', category:'vegetable', location:'Ooty, Tamil Nadu', farmer:'Selvam Raj', grade:'A', price:34, unit:'per_kg', name:{en:'Carrots', hi:'à¤—à¤¾à¤œà¤°'}, days:2},
+  {id:'p12', icon:'tomato', category:'vegetable', location:'Kolar, Karnataka', farmer:'Manjunath Gowda', grade:'C', price:16, unit:'per_kg', name:{en:'Roma Tomatoes', hi:'à¤°à¥‹à¤®à¤¾ à¤Ÿà¤®à¤¾à¤Ÿà¤°'}, days:7},
+];
+const CATEGORIES = [
+  {v:'all', en:'All categories', hi:'à¤¸à¤­à¥€ à¤¶à¥à¤°à¥‡à¤£à¤¿à¤¯à¤¾à¤'},
+  {v:'vegetable', en:'Vegetables', hi:'à¤¸à¤¬à¥à¤œà¤¼à¤¿à¤¯à¤¾à¤'},
+  {v:'fruit', en:'Fruits', hi:'à¤«à¤²'},
+  {v:'grain', en:'Grains', hi:'à¤…à¤¨à¤¾à¤œ'},
+];
+const LOCATIONS = [...new Set(PRODUCE.map(p=>p.location))];
+
+/* ---------- Router ---------- */
+function currentRoute(){
+  const h = location.hash.replace(/^#\/?/, '') || 'home';
+  return h.split('?')[0];
+}
+window.addEventListener('hashchange', render);
+
+function go(route){ location.hash = '#/' + route; window.scrollTo({top:0, behavior:'instant'}); }
+
+/* ---------- Toast ---------- */
+let toastTimer=null;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 2200);
+}
+
+/* ---------- Cart actions ---------- */
+function addToCart(id){
+  const existing = state.cart.find(c=>c.id===id);
+  if(existing){ existing.qty++; } else { state.cart.push({id, qty:1}); }
+  saveCart();
+  showToast(t('toast_added_cart'));
+  render();
+}
+function removeFromCart(id){
+  state.cart = state.cart.filter(c=>c.id!==id);
+  saveCart();
+  showToast(t('toast_removed_cart'));
+  render();
+}
+function changeQty(id, delta){
+  const item = state.cart.find(c=>c.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0){ removeFromCart(id); return; }
+  saveCart();
+  render();
+}
+function cartCount(){ return state.cart.reduce((s,c)=>s+c.qty,0); }
+
+/* =========================================================
+   AI analysis simulator (deterministic-ish, client only)
+   ========================================================= */
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i))|0; } return Math.abs(h); }
+
+const DISEASES = [
+  {en:'Healthy â€” no disease detected', hi:'à¤¸à¥à¤µà¤¸à¥à¤¥ â€” à¤•à¥‹à¤ˆ à¤°à¥‹à¤— à¤¨à¤¹à¥€à¤‚ à¤®à¤¿à¤²à¤¾', badge:'good', sev:{en:'None', hi:'à¤•à¥‹à¤ˆ à¤¨à¤¹à¥€à¤‚'}},
+  {en:'Early blight (leaf spot)', hi:'à¤ªà¥à¤°à¤¾à¤°à¤‚à¤­à¤¿à¤• à¤à¥à¤²à¤¸à¤¾ (à¤ªà¤¤à¥à¤¤à¥€ à¤§à¤¬à¥à¤¬à¤¾)', badge:'warn', sev:{en:'Mild', hi:'à¤¹à¤²à¥à¤•à¥€'}},
+  {en:'Powdery mildew', hi:'à¤šà¥‚à¤°à¥à¤£à¤¿à¤² à¤«à¤«à¥‚à¤‚à¤¦à¥€', badge:'warn', sev:{en:'Moderate', hi:'à¤®à¤§à¥à¤¯à¤®'}},
+  {en:'Bacterial soft rot', hi:'à¤œà¥€à¤µà¤¾à¤£à¥ à¤®à¥ƒà¤¦à¥ à¤¸à¤¡à¤¼à¤¨', badge:'bad', sev:{en:'Severe', hi:'à¤—à¤‚à¤­à¥€à¤°'}},
+  {en:'Pest damage (aphids)', hi:'à¤•à¥€à¤Ÿ à¤•à¥à¤·à¤¤à¤¿ (à¤à¤«à¤¿à¤¡à¥à¤¸)', badge:'warn', sev:{en:'Mild', hi:'à¤¹à¤²à¥à¤•à¥€'}},
+];
+const DISEASE_REC = {
+  good:{en:'No action needed â€” crop is fit for market at current grade.', hi:'à¤•à¥‹à¤ˆ à¤•à¤¾à¤°à¥à¤°à¤µà¤¾à¤ˆ à¤†à¤µà¤¶à¥à¤¯à¤• à¤¨à¤¹à¥€à¤‚ â€” à¤«à¤¸à¤² à¤µà¤°à¥à¤¤à¤®à¤¾à¤¨ à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤° à¤¬à¤¾à¤œà¤¼à¤¾à¤° à¤•à¥‡ à¤²à¤¿à¤ à¤‰à¤ªà¤¯à¥à¤•à¥à¤¤ à¤¹à¥ˆà¥¤'},
+  warn:{en:'Isolate affected batch and apply recommended treatment before shipping. Safe to sell at a lower grade.', hi:'à¤ªà¥à¤°à¤­à¤¾à¤µà¤¿à¤¤ à¤–à¥‡à¤ª à¤•à¥‹ à¤…à¤²à¤— à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤­à¥‡à¤œà¤¨à¥‡ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ à¤…à¤¨à¥à¤¶à¤‚à¤¸à¤¿à¤¤ à¤‰à¤ªà¤šà¤¾à¤° à¤•à¤°à¥‡à¤‚à¥¤ à¤•à¤® à¤—à¥à¤°à¥‡à¤¡ à¤ªà¤° à¤¬à¥‡à¤šà¤¨à¤¾ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤ à¤¹à¥ˆà¥¤'},
+  bad:{en:'Do not ship this batch. Remove affected produce and consult a local agronomist immediately.', hi:'à¤‡à¤¸ à¤–à¥‡à¤ª à¤•à¥‹ à¤¨ à¤­à¥‡à¤œà¥‡à¤‚à¥¤ à¤ªà¥à¤°à¤­à¤¾à¤µà¤¿à¤¤ à¤‰à¤ªà¤œ à¤¹à¤Ÿà¤¾à¤à¤ à¤”à¤° à¤¤à¥à¤°à¤‚à¤¤ à¤¸à¥à¤¥à¤¾à¤¨à¥€à¤¯ à¤•à¥ƒà¤·à¤¿ à¤µà¤¿à¤¶à¥‡à¤·à¤œà¥à¤ž à¤¸à¥‡ à¤¸à¤‚à¤ªà¤°à¥à¤• à¤•à¤°à¥‡à¤‚à¥¤'},
+};
+const RIPENESS_STAGES = [
+  {en:'Underripe', hi:'à¤•à¤šà¥à¤šà¤¾', badge:'warn', window:{en:'Wait 3â€“5 days before harvest', hi:'à¤•à¤Ÿà¤¾à¤ˆ à¤¸à¥‡ à¤ªà¤¹à¤²à¥‡ 3â€“5 à¤¦à¤¿à¤¨ à¤ªà¥à¤°à¤¤à¥€à¤•à¥à¤·à¤¾ à¤•à¤°à¥‡à¤‚'}},
+  {en:'Optimal ripeness', hi:'à¤‰à¤šà¤¿à¤¤ à¤ªà¤•à¤¾à¤µ', badge:'good', window:{en:'Harvest / sell within 1â€“2 days', hi:'1â€“2 à¤¦à¤¿à¤¨à¥‹à¤‚ à¤•à¥‡ à¤­à¥€à¤¤à¤° à¤•à¤Ÿà¤¾à¤ˆ/à¤¬à¤¿à¤•à¥à¤°à¥€ à¤•à¤°à¥‡à¤‚'}},
+  {en:'Overripe', hi:'à¤…à¤§à¤¿à¤• à¤ªà¤•à¤¾', badge:'bad', window:{en:'Sell immediately or move to processing', hi:'à¤¤à¥à¤°à¤‚à¤¤ à¤¬à¥‡à¤šà¥‡à¤‚ à¤¯à¤¾ à¤ªà¥à¤°à¤¸à¤‚à¤¸à¥à¤•à¤°à¤£ à¤®à¥‡à¤‚ à¤­à¥‡à¤œà¥‡à¤‚'}},
+];
+const GRADES = [
+  {g:'A', badge:'good', label:{en:'Grade A â€” premium retail', hi:'à¤—à¥à¤°à¥‡à¤¡ A â€” à¤ªà¥à¤°à¥€à¤®à¤¿à¤¯à¤® à¤°à¤¿à¤Ÿà¥‡à¤²'}},
+  {g:'B', badge:'warn', label:{en:'Grade B â€” standard retail', hi:'à¤—à¥à¤°à¥‡à¤¡ B â€” à¤®à¤¾à¤¨à¤• à¤°à¤¿à¤Ÿà¥‡à¤²'}},
+  {g:'C', badge:'bad', label:{en:'Grade C â€” processing / wholesale only', hi:'à¤—à¥à¤°à¥‡à¤¡ C â€” à¤•à¥‡à¤µà¤² à¤ªà¥à¤°à¤¸à¤‚à¤¸à¥à¤•à¤°à¤£/à¤¥à¥‹à¤•'}},
+];
+
+function runAnalysis(tool, fileNameSeed){
+  const h = hashStr(fileNameSeed + Date.now());
+  if(tool==='disease'){
+    const d = DISEASES[h % DISEASES.length];
+    const confidence = 78 + (h % 20);
+    return { kind:'disease', name:d, confidence, severity:d.sev, rec:DISEASE_REC[d.badge] };
+  }
+  if(tool==='ripeness'){
+    const r = RIPENESS_STAGES[h % RIPENESE_LEN()];
+    const confidence = 74 + (h % 24);
+    const sugar = (8 + (h % 10)) + 'â€“' + (10 + (h % 10)) + ' Â°Brix';
+    return { kind:'ripeness', stage:r, confidence, sugar };
+  }
+  if(tool==='quality'){
+    const g = GRADES[h % GRADES.length];
+    const confidence = 80 + (h % 18);
+    const uniformity = 70 + (h % 28);
+    const surface = 68 + (h % 30);
+    const priceMap = {A:'â‚¹26â€“30 / kg', B:'â‚¹18â€“22 / kg', C:'â‚¹10â€“14 / kg'};
+    return { kind:'quality', grade:g, confidence, uniformity, surface, price:priceMap[g.g] };
+  }
+}
+function RIPENESE_LEN(){ return RIPENESS_STAGES.length; }
+
+function badgeClass(b){ return 'result-badge badge-' + b; }
+
+function renderResultCard(res, lang){
+  if(res.kind==='disease'){
+    return `<div class="result-card">
+      <div class="result-top">
+        <div class="result-title">${res.name[lang]}</div>
+        <span class="${badgeClass(res.name.badge)}">${res.confidence}% ${t('confidence')}</span>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-bar"><div class="confidence-fill" style="width:${res.confidence}%"></div></div>
+      </div>
+      <div class="result-detail-row"><span>${t('severity')}</span><span>${res.severity[lang]}</span></div>
+      <div class="rec-box"><strong>${t('recommendation')}:</strong> ${res.rec[lang]}</div>
+    </div>`;
+  }
+  if(res.kind==='ripeness'){
+    return `<div class="result-card">
+      <div class="result-top">
+        <div class="result-title">${res.stage[lang]}</div>
+        <span class="${badgeClass(res.stage.badge)}">${res.confidence}% ${t('confidence')}</span>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-bar"><div class="confidence-fill" style="width:${res.confidence}%"></div></div>
+      </div>
+      <div class="result-detail-row"><span>${t('days_window')}</span><span>${res.stage.window[lang]}</span></div>
+      <div class="result-detail-row"><span>${t('sugar_est')}</span><span>${res.sugar}</span></div>
+    </div>`;
+  }
+  if(res.kind==='quality'){
+    return `<div class="result-card">
+      <div class="result-top">
+        <div class="result-title">${res.grade.label[lang]}</div>
+        <span class="${badgeClass(res.grade.badge)}">${res.confidence}% ${t('confidence')}</span>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-bar"><div class="confidence-fill" style="width:${res.confidence}%"></div></div>
+      </div>
+      <div class="result-detail-row"><span>${t('size_uniformity')}</span><span>${res.uniformity}%</span></div>
+      <div class="result-detail-row"><span>${t('surface_quality')}</span><span>${res.surface}%</span></div>
+      <div class="result-detail-row"><span>${t('est_price')}</span><span>${res.price}</span></div>
+    </div>`;
+  }
+  return '';
+}
+
+/* =========================================================
+   Header / Footer
+   ========================================================= */
+function headerHTML(active){
+  const lang = state.lang;
+  const aiRoutes = ['ai-disease','ai-ripeness','ai-quality'];
+  const aiOpenClass = aiRoutes.includes(active) ? 'active' : '';
+  return `
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand" onclick="go('home')">
+        <div class="brand-mark">${ic('leaf')}</div>
+        <div>
+          <div class="brand-name">${lang==='hi' ? 'à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯' : 'Krishi Karya'}</div>
+          <div class="brand-tag">${t('brand_tag')}</div>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="#/home" class="${active==='home'?'active':''}">${t('nav_home')}</a>
+        <a href="#/marketplace" class="${active==='marketplace'?'active':''}">${t('nav_marketplace')}</a>
+        <div class="nav-dd" id="aiDropdown">
+          <button onclick="toggleAiDropdown(event)" class="${aiOpenClass}">${t('nav_ai')} ${ic('chevronDown')}</button>
+          <div class="nav-dd-panel">
+            <a href="#/ai-disease" class="${active==='ai-disease'?'active':''}">${t('ai_disease')}</a>
+            <a href="#/ai-ripeness" class="${active==='ai-ripeness'?'active':''}">${t('ai_ripeness')}</a>
+            <a href="#/ai-quality" class="${active==='ai-quality'?'active':''}">${t('ai_quality')}</a>
+          </div>
+        </div>
+        <a href="#/how-it-works" class="${active==='how-it-works'?'active':''}">${t('nav_how')}</a>
+        <a href="#/about" class="${active==='about'?'active':''}">${t('nav_about')}</a>
+        <a href="#/contact" class="${active==='contact'?'active':''}">${t('nav_contact')}</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Search" onclick="openSearch()">${ic('search')}</button>
+        <button class="icon-btn" aria-label="Cart" onclick="go('cart')">
+          ${ic('cart')}
+          ${cartCount()>0 ? `<span class="cart-badge">${cartCount()}</span>` : ''}
+        </button>
+        <button class="lang-toggle" onclick="toggleLang()">${ic('globe')} <span class="lang-label">${lang==='en'?'EN':'à¤¹à¤¿à¤‚à¤¦à¥€'}</span></button>
+        <button class="btn btn-primary btn-sm" onclick="openLogin()">${t('nav_login')}</button>
+        <button class="burger icon-btn" aria-label="Menu" onclick="toggleMobileNav()">${ic('menu')}</button>
+      </div>
+    </div>
+    <div class="mobile-nav ${state.mobileNavOpen?'open':''}" id="mobileNav">
+      <a href="#/home">${t('nav_home')}</a>
+      <a href="#/marketplace">${t('nav_marketplace')}</a>
+      <button class="mn-parent" onclick="toggleMobileSub()">${t('nav_ai')} ${ic('chevronDown')}</button>
+      <div class="mobile-sub" id="mobileSub" style="display:none;">
+        <a href="#/ai-disease">${t('ai_disease')}</a>
+        <a href="#/ai-ripeness">${t('ai_ripeness')}</a>
+        <a href="#/ai-quality">${t('ai_quality')}</a>
+      </div>
+      <a href="#/how-it-works">${t('nav_how')}</a>
+      <a href="#/about">${t('nav_about')}</a>
+      <a href="#/contact">${t('nav_contact')}</a>
+    </div>
+  </header>`;
+}
+
+function footerHTML(){
+  const lang = state.lang;
+  const brandName = lang==='hi' ? 'à¤•à¥ƒà¤·à¤¿ à¤•à¤¾à¤°à¥à¤¯' : 'Krishi Karya';
+  return `
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <div class="brand-mark">${ic('leaf')}</div>
+            <div class="footer-brand-name">${brandName}</div>
+          </div>
+          <p class="footer-tagline">${t('footer_tag')}</p>
+        </div>
+        <div class="footer-col">
+          <h5>${t('footer_platform')}</h5>
+          <a href="#/marketplace">${t('nav_marketplace')}</a>
+          <a href="#/ai-disease">${t('ai_disease')}</a>
+          <a href="#/ai-ripeness">${t('ai_ripeness')}</a>
+          <a href="#/ai-quality">${t('ai_quality')}</a>
+        </div>
+        <div class="footer-col">
+          <h5>${t('footer_company')}</h5>
+          <a href="#/about">${t('footer_about')}</a>
+          <a href="#/how-it-works">${t('footer_how')}</a>
+          <a href="#/contact">${t('footer_contact_link')}</a>
+        </div>
+        <div class="footer-col">
+          <h5>${t('footer_contact')}</h5>
+          <p class="footer-contact-item">${ic('phone')} +91 80 4718 2200</p>
+          <p class="footer-contact-item">${ic('mail')} krishikarya@gmail.com</p>
+          <p class="footer-contact-item">${ic('pin')} Pune, Maharashtra</p>
+        </div>
+      </div>
+      <div class="footer-bottom">${t('footer_rights')}</div>
+    </div>
+  </footer>`;
+}
+
+function toggleLang(){
+  state.lang = state.lang==='en' ? 'hi' : 'en';
+  localStorage.setItem('kk_lang', state.lang);
+  document.documentElement.lang = state.lang;
+  document.body.classList.toggle('lang-hi', state.lang==='hi');
+  render();
+}
+function toggleMobileNav(){ state.mobileNavOpen = !state.mobileNavOpen; render(); }
+function toggleMobileSub(){
+  const el = document.getElementById('mobileSub');
+  if(el) el.style.display = el.style.display==='none' ? 'flex' : 'none';
+}
+function toggleAiDropdown(e){
+  e.stopPropagation();
+  const dd = document.getElementById('aiDropdown');
+  dd.classList.toggle('open');
+}
+document.addEventListener('click', (e)=>{
+  const dd = document.getElementById('aiDropdown');
+  if(dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
+function openSearch(){ state.searchOpen = true; render(); setTimeout(()=>{ const i=document.getElementById('searchInput'); if(i) i.focus(); },30); }
+function closeSearch(){ state.searchOpen = false; render(); }
+function submitSearch(e){
+  e.preventDefault();
+  const val = document.getElementById('searchInput').value.trim();
+  closeSearch();
+  go('marketplace');
+  setTimeout(()=>{ state.marketFilters.q = val; render(); }, 40);
+}
+function openLogin(){ state.loginOpen = true; render(); }
+function closeLogin(){ state.loginOpen = false; render(); }
+function setLoginTab(tab){ state.loginTab = tab; render(); }
+function submitLogin(e){ e.preventDefault(); closeLogin(); showToast(t('toast_login_demo')); }
+
+/* =========================================================
+   Home page
+   ========================================================= */
+function heroSVG(){
+  return `<svg viewBox="0 0 1240 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="1" y2="0.3">
+        <stop offset="0%" stop-color="#0f2a12"/>
+        <stop offset="55%" stop-color="#2f5f2e"/>
+        <stop offset="100%" stop-color="#e8b95a"/>
+      </linearGradient>
+      <radialGradient id="sun" cx="85%" cy="30%" r="45%">
+        <stop offset="0%" stop-color="#ffe6a8" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#ffe6a8" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="1240" height="520" fill="url(#sky)"/>
+    <circle cx="1054" cy="150" r="260" fill="url(#sun)"/>
+    <g opacity="0.5" fill="#0f2a12">
+      <path d="M0 340 Q 150 300 320 335 T 640 330 T 960 345 T 1240 320 V520 H0 Z"/>
+    </g>
+    <g opacity="0.65" fill="#1c3d1c">
+      <path d="M0 380 Q 180 350 380 380 T 760 375 T 1240 380 V520 H0 Z"/>
+    </g>
+    <g stroke="#defac0" stroke-width="2" opacity="0.35">
+      ${Array.from({length:26}).map((_,i)=>{
+        const x = i*50 - 10;
+        return `<path d="M${x} 520 C ${x-6} 470, ${x+10} 440, ${x-2} 400" fill="none"/>`;
+      }).join('')}
+    </g>
+    <g transform="translate(70,250)" opacity="0.92">
+      <ellipse cx="70" cy="255" rx="80" ry="14" fill="#0b1c0b" opacity="0.3"/>
+      <path d="M70 60 C40 60 30 90 34 120 L44 240 L96 240 L106 120 C110 90 100 60 70 60 Z" fill="#eef0e6"/>
+      <path d="M40 100 Q70 130 100 100 L96 240 L44 240 Z" fill="#dfe3d2"/>
+      <circle cx="70" cy="34" r="30" fill="#e8c9a0"/>
+      <path d="M36 26 Q70 -6 104 26 Q104 6 70 2 Q36 6 36 26 Z" fill="#f4efe1"/>
+      <path d="M40 30 Q70 10 100 30 Q98 40 70 40 Q42 40 40 30 Z" fill="#f4efe1"/>
+      <rect x="20" y="150" width="34" height="46" rx="8" fill="#dcae54" opacity="0.9"/>
+      <path d="M18 150 Q37 130 56 150" fill="none" stroke="#4a7a3c" stroke-width="6" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function homeView(){
+  const lang = state.lang;
+  return `
+  <section class="hero">
+    <div class="hero-bg">${heroSVG()}</div>
+    <div class="hero-scrim"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">${ic('sparkle')} ${t('hero_badge')}</div>
+      <h1>${t('hero_h1')}</h1>
+      <p class="lede">${t('hero_lede')}</p>
+      <div class="hero-ctas">
+        <button class="btn btn-amber" onclick="go('marketplace')">${t('hero_cta1')} ${ic('arrowRight')}</button>
+        <button class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.5);" onclick="go('ai-quality')">${t('hero_cta2')}</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="feature-strip-wrap">
+    <div class="container">
+      <div class="feature-strip">
+        <div class="feature-item">
+          <div class="feature-icon">${ic('people')}</div>
+          <h4>${t('feat1_h')}</h4><p>${t('feat1_p')}</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">${ic('truck')}</div>
+          <h4>${t('feat2_h')}</h4><p>${t('feat2_p')}</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">${ic('shield')}</div>
+          <h4>${t('feat3_h')}</h4><p>${t('feat3_p')}</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">${ic('sparkle')}</div>
+          <h4>${t('feat4_h')}</h4><p>${t('feat4_p')}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div><h2>${t('fresh_h')}</h2><p>${t('fresh_p')}</p></div>
+        <a class="view-all" href="#/marketplace">${t('view_all')} ${ic('arrowRight')}</a>
+      </div>
+      <div class="grid-4">
+        ${PRODUCE.slice(0,4).map(p=>produceCardHTML(p)).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <div><h2>${t('tools_h')}</h2><p>${t('tools_p')}</p></div>
+      </div>
+      <div class="grid-3">
+        <div class="tool-card">
+          <div class="circle-icon">${ic('bug')}</div>
+          <h3>${t('ai_disease')}</h3>
+          <p>${t('tool_disease_d')}</p>
+          <button class="link-arrow" onclick="go('ai-disease')">${t('upload_image')} ${ic('arrowRight')}</button>
+        </div>
+        <div class="tool-card">
+          <div class="circle-icon">${ic('sparkle')}</div>
+          <h3>${t('ai_ripeness')}</h3>
+          <p>${t('tool_ripeness_d')}</p>
+          <button class="link-arrow" onclick="go('ai-ripeness')">${t('upload_image')} ${ic('arrowRight')}</button>
+        </div>
+        <div class="tool-card">
+          <div class="circle-icon">${ic('scan')}</div>
+          <h3>${t('ai_quality')}</h3>
+          <p>${t('tool_quality_d')}</p>
+          <button class="link-arrow" onclick="go('ai-quality')">${t('upload_image')} ${ic('arrowRight')}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container">
+      <div class="dual-cta">
+        <div class="dual-cta-card farmer">
+          <h3>${t('cta_farmer_h')}</h3>
+          <p>${t('cta_farmer_p')}</p>
+          <button class="btn" onclick="go('ai-quality')">${t('cta_farmer_btn')}</button>
+        </div>
+        <div class="dual-cta-card retailer">
+          <h3>${t('cta_retailer_h')}</h3>
+          <p>${t('cta_retailer_p')}</p>
+          <button class="btn" onclick="go('marketplace')">${t('cta_retailer_btn')}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  `;
+}
+
+function produceCardHTML(p){
+  const lang = state.lang;
+  const inCart = state.cart.find(c=>c.id===p.id);
+  return `
+  <div class="produce-card">
+    <div class="produce-thumb">
+      <span class="grade-chip">${t('quality_grade')} ${p.grade}</span>
+      <div class="produce-icon-badge">${ic(p.icon)}</div>
+    </div>
+    <div class="produce-body">
+      <h4>${p.name[lang]}</h4>
+      <div class="produce-meta">${p.farmer} Â· ${p.location}</div>
+      <div class="produce-price-row">
+        <div class="produce-price">â‚¹${p.price}<span> ${t(p.unit)}</span></div>
+        <button class="add-cart-btn ${inCart?'added':''}" onclick="addToCart('${p.id}')">
+          ${ic('cart')} ${inCart ? t('added') : t('add_to_cart')}
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   Marketplace
+   ========================================================= */
+function setMarketFilter(key, val){ state.marketFilters[key] = val; render(); }
+function clearMarketFilters(){ state.marketFilters = { q:'', category:'all', location:'all', grade:'all', sort:'newest' }; render(); }
+
+function filteredProduce(){
+  const f = state.marketFilters;
+  const lang = state.lang;
+  let list = PRODUCE.filter(p=>{
+    if(f.category!=='all' && p.category!==f.category) return false;
+    if(f.location!=='all' && p.location!==f.location) return false;
+    if(f.grade!=='all' && p.grade!==f.grade) return false;
+    if(f.q){
+      const q = f.q.toLowerCase();
+      const hay = (p.name.en+' '+p.name.hi+' '+p.farmer+' '+p.location).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if(f.sort==='price_low') list = list.slice().sort((a,b)=>a.price-b.price);
+  else if(f.sort==='price_high') list = list.slice().sort((a,b)=>b.price-a.price);
+  else if(f.sort==='grade') list = list.slice().sort((a,b)=>a.grade.localeCompare(b.grade));
+  else list = list.slice().sort((a,b)=>a.days-b.days);
+  return list;
+}
+
+function marketplaceView(){
+  const f = state.marketFilters;
+  const list = filteredProduce();
+  return `
+  <div class="container">
+    <div class="page-head">
+      <h1>${t('mkt_h')}</h1>
+      <p>${t('mkt_p')}</p>
+    </div>
+    <div class="marketplace-layout">
+      <aside class="filters-panel">
+        <div class="filters-title">${ic('filter')} ${t('filters')}</div>
+        <div class="field-group">
+          <label>${t('filters')==='Filters'?'Search':'à¤–à¥‹à¤œ'}</label>
+          <input class="field-input" type="text" placeholder="${t('search_ph')}" value="${f.q.replace(/"/g,'&quot;')}" oninput="setMarketFilter('q', this.value)">
+        </div>
+        <div class="field-group">
+          <label>${t('category')}</label>
+          <select class="field-input" onchange="setMarketFilter('category', this.value)">
+            ${CATEGORIES.map(c=>`<option value="${c.v}" ${f.category===c.v?'selected':''}>${state.lang==='hi'?c.hi:c.en}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field-group">
+          <label>${t('location')}</label>
+          <select class="field-input" onchange="setMarketFilter('location', this.value)">
+            <option value="all" ${f.location==='all'?'selected':''}>${t('all_locations')}</option>
+            ${LOCATIONS.map(l=>`<option value="${l}" ${f.location===l?'selected':''}>${l}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field-group">
+          <label>${t('quality_grade')}</label>
+          <div class="chip-row">
+            ${['all','A','B','C'].map(g=>`<button class="chip ${f.grade===g?'active':''}" onclick="setMarketFilter('grade','${g}')">${g==='all'?t('all_categories').split(' ')[0]:g}</button>`).join('')}
+          </div>
+        </div>
+        <div class="field-group">
+          <label>${t('sort_by')}</label>
+          <select class="field-input" onchange="setMarketFilter('sort', this.value)">
+            <option value="newest" ${f.sort==='newest'?'selected':''}>${t('sort_newest')}</option>
+            <option value="price_low" ${f.sort==='price_low'?'selected':''}>${t('sort_price_low')}</option>
+            <option value="price_high" ${f.sort==='price_high'?'selected':''}>${t('sort_price_high')}</option>
+            <option value="grade" ${f.sort==='grade'?'selected':''}>${t('sort_grade')}</option>
+          </select>
+        </div>
+        <button class="clear-filters" onclick="clearMarketFilters()">${t('clear_filters')}</button>
+      </aside>
+      <div>
+        <div class="results-bar">
+          <div class="results-count">${t('results_showing')} ${list.length} ${t('results_of')} ${PRODUCE.length} ${t('results_listings')}</div>
+        </div>
+        ${list.length ? `<div class="market-grid">${list.map(p=>produceCardHTML(p)).join('')}</div>` :
+          `<div class="empty-state"><h3>${t('no_results_h')}</h3><p>${t('no_results_p')}</p></div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   AI Tool pages
+   ========================================================= */
+function aiToolView(tool){
+  const titleKey = {disease:'ai_disease_h', ripeness:'ai_ripeness_h', quality:'ai_quality_h'}[tool];
+  const subKey = {disease:'ai_disease_p', ripeness:'ai_ripeness_p', quality:'ai_quality_p'}[tool];
+  const current = state.aiCurrent[tool];
+  const loading = state.aiLoading[tool];
+  const history = state.aiHistory[tool];
+  const lang = state.lang;
+
+  let resultsInner = '';
+  if(loading){
+    resultsInner = `<div class="analyzing"><div class="spinner"></div> ${t('analyzing')}</div>`;
+  } else if(current){
+    resultsInner = renderResultCard(current.result, lang);
+    if(history.length>1){
+      resultsInner += `<div class="history-thumb-row">
+        ${history.map((h,i)=>`<img class="history-thumb ${h.id===current.id?'active':''}" src="${h.thumb}" onclick="selectHistory('${tool}','${h.id}')">`).join('')}
+      </div>`;
+    }
+  } else {
+    resultsInner = `<div class="results-empty">
+      <p style="margin-bottom:6px;font-weight:600;color:var(--ink);">${t('no_analyses')}</p>
+      <p>${t('no_analyses_sub')}</p>
+    </div>`;
+  }
+
+  return `
+  <div class="container">
+    <div class="page-head" style="padding-bottom:0;">
+      <div class="breadcrumb"><a href="#/home">${t('breadcrumb_home')}</a> / <a href="#/home" onclick="event.preventDefault();toggleAiDropdown({stopPropagation(){}})">${t('nav_ai')}</a></div>
+      <h1>${t(titleKey)}</h1>
+      <p>${t(subKey)}</p>
+    </div>
+    <div class="ai-layout" style="margin-top:26px;">
+      <div class="dropzone" id="dz-${tool}"
+           ondragover="event.preventDefault(); this.classList.add('drag');"
+           ondragleave="this.classList.remove('drag');"
+           ondrop="handleDrop(event,'${tool}')">
+        ${current && current.thumb ? `<img class="preview" src="${current.thumb}">` : `
+        <div class="upload-icon">${ic('upload')}</div>
+        <h4>${t('dz_h')}</h4>
+        <p>${t('dz_p')}</p>
+        <p>${t('dz_hint')}</p>
+        `}
+        <input type="file" accept="image/png, image/jpeg" onchange="handleFileInput(event,'${tool}')">
+      </div>
+      <div class="results-panel">
+        ${resultsInner}
+      </div>
+    </div>
+  </div>`;
+}
+
+function fileToDataUrl(file){
+  return new Promise((resolve,reject)=>{
+    const r = new FileReader();
+    r.onload = ()=>resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+async function processFile(file, tool){
+  if(!file) return;
+  if(!file.type.match(/image\/(png|jpeg)/)){ showToast('Please upload a JPG or PNG image.'); return; }
+  if(file.size > 8*1024*1024){ showToast('Image is larger than 8 MB.'); return; }
+  let dataUrl;
+  try{ dataUrl = await fileToDataUrl(file); }catch(e){ return; }
+
+  state.aiLoading[tool] = true;
+  state.aiCurrent[tool] = { id:'x', thumb:dataUrl, result:null };
+  render();
+
+  setTimeout(()=>{
+    const result = runAnalysis(tool, file.name+file.size);
+    const id = 'a'+Date.now();
+    const entry = { id, thumb:dataUrl, result };
+    state.aiHistory[tool] = [entry, ...state.aiHistory[tool]].slice(0,6);
+    state.aiCurrent[tool] = entry;
+    state.aiLoading[tool] = false;
+    render();
+  }, 1100 + Math.random()*700);
+}
+function handleFileInput(e, tool){ processFile(e.target.files[0], tool); }
+function handleDrop(e, tool){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  processFile(file, tool);
+}
+function selectHistory(tool, id){
+  const entry = state.aiHistory[tool].find(h=>h.id===id);
+  if(entry){ state.aiCurrent[tool] = entry; render(); }
+}
+
+/* =========================================================
+   Cart
+   ========================================================= */
+function cartView(){
+  const lang = state.lang;
+  const items = state.cart.map(c=>{
+    const p = PRODUCE.find(pp=>pp.id===c.id);
+    return p ? {...c, p} : null;
+  }).filter(Boolean);
+
+  if(items.length===0){
+    return `
+    <div class="container">
+      <div class="page-head"><h1>${t('cart_h')}</h1><p>${t('cart_p')}</p></div>
+      <div class="empty-state" style="max-width:640px;">
+        <p style="margin-bottom:20px;">${t('cart_empty_h')}</p>
+        <button class="btn btn-primary" onclick="go('marketplace')">${t('cart_empty_btn')}</button>
+      </div>
+    </div>`;
+  }
+
+  const subtotal = items.reduce((s,it)=>s+it.p.price*it.qty,0);
+  const delivery = items.length ? 49 : 0;
+  const taxes = Math.round(subtotal*0.02);
+  const total = subtotal + delivery + taxes;
+
+  return `
+  <div class="container">
+    <div class="page-head"><h1>${t('cart_h')}</h1><p>${t('cart_p')}</p></div>
+    <div class="cart-layout">
+      <div class="scroll-x">
+      <table class="cart-table">
+        <thead><tr>
+          <th>${t('cart_item')}</th><th>${t('cart_price')}</th><th>${t('cart_qty')}</th><th>${t('cart_subtotal')}</th><th></th>
+        </tr></thead>
+        <tbody>
+        ${items.map(it=>`
+          <tr>
+            <td>
+              <div class="cart-item-name">
+                <div class="thumb" style="color:var(--leaf-2)">${ic(it.p.icon)}</div>
+                <div>
+                  <div style="font-weight:600;">${it.p.name[lang]}</div>
+                  <div style="font-size:.8rem;color:var(--ink-muted);">${it.p.location}</div>
+                </div>
+              </div>
+            </td>
+            <td>â‚¹${it.p.price} ${t(it.p.unit)}</td>
+            <td>
+              <div class="qty-stepper">
+                <button onclick="changeQty('${it.p.id}',-1)">âˆ’</button>
+                <span>${it.qty}</span>
+                <button onclick="changeQty('${it.p.id}',1)">+</button>
+              </div>
+            </td>
+            <td>â‚¹${it.p.price*it.qty}</td>
+            <td><button class="remove-link" onclick="removeFromCart('${it.p.id}')">${t('cart_remove')}</button></td>
+          </tr>
+        `).join('')}
+        </tbody>
+      </table>
+      </div>
+      <div class="cart-summary">
+        <h3 style="font-size:1.1rem;margin-bottom:14px;">${t('order_summary')}</h3>
+        <div class="cart-summary-row"><span>${t('subtotal')}</span><span>â‚¹${subtotal}</span></div>
+        <div class="cart-summary-row"><span>${t('delivery')}</span><span>â‚¹${delivery}</span></div>
+        <div class="cart-summary-row"><span>${t('taxes')}</span><span>â‚¹${taxes}</span></div>
+        <div class="cart-summary-row total"><span>${t('total')}</span><span>â‚¹${total}</span></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="showToast('${t('checkout')} â€” demo only')">${t('checkout')}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   How it works
+   ========================================================= */
+function howItWorksView(){
+  const fSteps = [['f_step1_h','f_step1_p'],['f_step2_h','f_step2_p'],['f_step3_h','f_step3_p'],['f_step4_h','f_step4_p']];
+  const rSteps = [['r_step1_h','r_step1_p'],['r_step2_h','r_step2_p'],['r_step3_h','r_step3_p'],['r_step4_h','r_step4_p']];
+  return `
+  <div class="container">
+    <div class="page-head"><h1>${t('how_h')}</h1><p>${t('how_p')}</p></div>
+    <div class="two-col" style="padding-bottom:70px;">
+      <div>
+        <h3 style="margin-bottom:6px;font-size:1.3rem;">${t('how_farmers')}</h3>
+        <div class="steps-col">
+          ${fSteps.map((s,i)=>`
+            <div class="step-row">
+              <div class="step-num">${i+1}</div>
+              <div><h4>${t(s[0])}</h4><p>${t(s[1])}</p></div>
+            </div>`).join('')}
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:6px;font-size:1.3rem;">${t('how_retailers')}</h3>
+        <div class="steps-col">
+          ${rSteps.map((s,i)=>`
+            <div class="step-row">
+              <div class="step-num">${i+1}</div>
+              <div><h4>${t(s[0])}</h4><p>${t(s[1])}</p></div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   About
+   ========================================================= */
+function aboutView(){
+  return `
+  <div class="container">
+    <div class="page-head"><h1>${t('about_h')}</h1><p>${t('about_p')}</p></div>
+    <div style="padding-bottom:70px;">
+      <div class="stats-row">
+        <div class="stat-box"><div class="num">${t('stat1_n')}</div><div class="label">${t('stat1_l')}</div></div>
+        <div class="stat-box"><div class="num">${t('stat2_n')}</div><div class="label">${t('stat2_l')}</div></div>
+        <div class="stat-box"><div class="num">${t('stat3_n')}</div><div class="label">${t('stat3_l')}</div></div>
+        <div class="stat-box"><div class="num">${t('stat4_n')}</div><div class="label">${t('stat4_l')}</div></div>
+      </div>
+      <div class="about-story">
+        <h3 style="font-size:1.3rem;margin-bottom:14px;">${t('about_mission_h')}</h3>
+        <p>${t('about_p1')}</p>
+        <p>${t('about_p2')}</p>
+        <p>${t('about_p3')}</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   Contact
+   ========================================================= */
+let contactSubmitted = false;
+function submitContact(e){
+  e.preventDefault();
+  contactSubmitted = true;
+  render();
+}
+function contactView(){
+  return `
+  <div class="container">
+    <div class="page-head"><h1>${t('contact_h')}</h1><p>${t('contact_p')}</p></div>
+    <div class="contact-layout">
+      <div>
+        <div class="contact-info-item">
+          <div class="ic">${ic('phone')}</div>
+          <div><h5>${t('contact_phone')}</h5><p>+91 80 4718 2200</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="ic">${ic('mail')}</div>
+          <div><h5>${t('contact_email')}</h5><p>krishikarya@gmail.com</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="ic">${ic('pin')}</div>
+          <div><h5>${t('contact_address')}</h5><p>Pune, Maharashtra, India</p></div>
+        </div>
+      </div>
+      <div>
+        ${contactSubmitted ? `<div class="success-msg">${t('form_success')}</div>` : ''}
+        <form onsubmit="submitContact(event)">
+          <div class="form-row"><label>${t('form_name')}</label><input type="text" required></div>
+          <div class="form-row"><label>${t('form_email')}</label><input type="email" required></div>
+          <div class="form-row"><label>${t('form_message')}</label><textarea required></textarea></div>
+          <button class="btn btn-primary" type="submit">${t('form_send')}</button>
+        </form>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   404
+   ========================================================= */
+function notFoundView(){
+  return `
+  <div class="container">
+    <div class="notfound">
+      <div class="code">404</div>
+      <h3>${t('nf_h')}</h3>
+      <p>${t('nf_p')}</p>
+      <button class="btn btn-primary" onclick="go('home')">${t('nf_btn')}</button>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   Search overlay + Login modal
+   ========================================================= */
+function searchOverlayHTML(){
+  if(!state.searchOpen) return '';
+  return `
+  <div class="search-overlay open" onclick="if(event.target===this) closeSearch()">
+    <div class="search-box">
+      <form onsubmit="submitSearch(event)">
+        <input id="searchInput" type="text" placeholder="${t('search_placeholder')}">
+      </form>
+    </div>
+  </div>`;
+}
+function loginModalHTML(){
+  if(!state.loginOpen) return '';
+  return `
+  <div class="modal-overlay open" onclick="if(event.target===this) closeLogin()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeLogin()">${ic('close')}</button>
+      <h3>${t('login_title')}</h3>
+      <p class="sub">${t('login_sub')}</p>
+      <div class="modal-tabs">
+        <button class="${state.loginTab==='farmer'?'active':''}" onclick="setLoginTab('farmer')">${t('login_tab1')}</button>
+        <button class="${state.loginTab==='retailer'?'active':''}" onclick="setLoginTab('retailer')">${t('login_tab2')}</button>
+      </div>
+      <form onsubmit="submitLogin(event)">
+        <div class="form-row"><label>${t('login_email')}</label><input type="email" required></div>
+        <div class="form-row"><label>${t('login_password')}</label><input type="password" required></div>
+        <button class="btn btn-primary" style="width:100%;" type="submit">${t('login_btn')}</button>
+      </form>
+      <p style="font-size:.78rem;color:var(--ink-soft);margin-top:14px;text-align:center;">${t('login_demo')}</p>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   Main render
+   ========================================================= */
+function render(){
+  const route = currentRoute();
+  let body = '';
+  if(route==='home') body = homeView();
+  else if(route==='marketplace') body = marketplaceView();
+  else if(route==='ai-disease') body = aiToolView('disease');
+  else if(route==='ai-ripeness') body = aiToolView('ripeness');
+  else if(route==='ai-quality') body = aiToolView('quality');
+  else if(route==='cart') body = cartView();
+  else if(route==='how-it-works') body = howItWorksView();
+  else if(route==='about') body = aboutView();
+  else if(route==='contact') body = contactView();
+  else body = notFoundView();
+
+  const activeMap = {home:'home', marketplace:'marketplace', 'ai-disease':'ai-disease','ai-ripeness':'ai-ripeness','ai-quality':'ai-quality','how-it-works':'how-it-works',about:'about',contact:'contact'};
+  const active = activeMap[route] || '';
+
+  document.getElementById('app-root').innerHTML = `
+    ${headerHTML(active)}
+    <main>${body}</main>
+    ${footerHTML()}
+    ${searchOverlayHTML()}
+    ${loginModalHTML()}
+  `;
+}
+
+/* ---------- Init ---------- */
+document.documentElement.lang = state.lang;
+document.body.classList.toggle('lang-hi', state.lang==='hi');
+if(!location.hash) location.hash = '#/home';
+render();
+</script>
+</body>
+</html>
+
